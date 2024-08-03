@@ -3,6 +3,7 @@ const fetchTrendingAll = require("../api/fetchTrendingAll");
 const fetchHomePopular = require("../api/fetchHomePopular");
 const fetchHomeTV = require("../api/fetchHomeTv");
 const fetchMovieList = require("../api/fetchMovieList");
+const fetchGenres = require("../api/fetchGenres");
 
 const router = express.Router();
 
@@ -36,6 +37,13 @@ router.get("/discover/movie", async (req, res) => {
 	const searchParamsString = new URLSearchParams(req.query).toString();
 	const results = await fetchMovieList(searchParamsString);
 	return res.status(200).json({ results });
+});
+
+// movie or tv page -> fetch Genere
+router.get("/genre/:mode/list", async (req, res) => {
+	const { mode } = req.params;
+	const genres = await fetchGenres(mode);
+	return res.status(200).json({ genres });
 });
 
 module.exports = router;

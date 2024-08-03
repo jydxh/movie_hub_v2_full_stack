@@ -10,6 +10,7 @@ const fetchTvList = require("../api/fetchTvList");
 const fetchTvMulti = require("../api/fetchTvMulti");
 const fetchPopularPeople = require("../api/fetchPopularPeople");
 const fetchPeopleMulti = require("../api/fetchPeopleMulti");
+const fetchMultiSearch = require("../api/fetchMultiSearch");
 
 const router = express.Router();
 
@@ -104,6 +105,15 @@ router.get("/person/popular", async (req, res) => {
 router.get("/person/:id", async (req, res) => {
 	const { id } = req.params;
 	const results = await fetchPeopleMulti(id);
+	return res.status(200).json(results);
+});
+
+// home -> serach
+router.get("/search/:mode", async (req, res) => {
+	const { mode } = req.params;
+	const { page, query } = req.query;
+
+	const results = await fetchMultiSearch({ query, page, mode });
 	return res.status(200).json(results);
 });
 module.exports = router;

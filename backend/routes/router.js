@@ -8,6 +8,7 @@ const fetchMovieDetail = require("../api/fetchMovieDetail");
 const fetchMovieCustom = require("../api/fetchMovieCustom");
 const fetchTvList = require("../api/fetchTvList");
 const fetchTvMulti = require("../api/fetchTvMulti");
+const fetchPopularPeople = require("../api/fetchPopularPeople");
 
 const router = express.Router();
 
@@ -86,6 +87,14 @@ router.get("/tv/:id", async (req, res) => {
 router.get("/tv/:id/images", async (req, res) => {
 	const { id } = req.params;
 	const results = await fetchTvMulti({ id, mode: "image" });
+	return res.status(200).json(results);
+});
+
+// people ->
+router.get("/person/popular", async (req, res) => {
+	const searchParams = new URLSearchParams(req.query).toString();
+	console.log(searchParams);
+	const results = await fetchPopularPeople(searchParams);
 	return res.status(200).json(results);
 });
 module.exports = router;

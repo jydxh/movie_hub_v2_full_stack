@@ -6,6 +6,7 @@ const fetchMovieList = require("../api/fetchMovieList");
 const fetchGenres = require("../api/fetchGenres");
 const fetchMovieDetail = require("../api/fetchMovieDetail");
 const fetchMovieCustom = require("../api/fetchMovieCustom");
+const fetchTvList = require("../api/fetchTvList");
 
 const router = express.Router();
 
@@ -57,11 +58,19 @@ router.get("/movie/:id", async (req, res) => {
 	return res.status(200).json(results);
 });
 
-// movie-detail -> fetchMovie Custom
+// movie-detail  -> fetchMovie Custom (review,images,credit)
 router.get("/movie/:id/:mode", async (req, res) => {
 	const { id, mode } = req.params;
-	console.log(id, mode);
+	//console.log(id, mode);
 	const results = await fetchMovieCustom({ id, mode });
+	return res.status(200).json(results);
+});
+
+// tv_show
+router.get("/discover/tv", async (req, res) => {
+	const queryString = new URLSearchParams(req.query).toString();
+	//console.log(queryString);
+	const results = await fetchTvList(queryString);
 	return res.status(200).json(results);
 });
 

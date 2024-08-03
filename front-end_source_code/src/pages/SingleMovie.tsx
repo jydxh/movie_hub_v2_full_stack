@@ -44,7 +44,7 @@ function SingleMovie() {
 			</div>
 		);
 	} else if (data) {
-		//console.log(data);
+		console.log(data);
 		return (
 			<>
 				<MediaDetailHero data={data} />

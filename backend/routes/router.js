@@ -5,6 +5,7 @@ const fetchHomeTV = require("../api/fetchHomeTv");
 const fetchMovieList = require("../api/fetchMovieList");
 const fetchGenres = require("../api/fetchGenres");
 const fetchMovieDetail = require("../api/fetchMovieDetail");
+const fetchMovieCustom = require("../api/fetchMovieCustom");
 
 const router = express.Router();
 
@@ -52,7 +53,15 @@ router.get("/movie/:id", async (req, res) => {
 	const { id } = req.params;
 	//console.log(id);
 	const results = await fetchMovieDetail(id);
-	console.log(results);
+	//console.log(results);
+	return res.status(200).json(results);
+});
+
+// movie-detail -> fetchMovie Custom
+router.get("/movie/:id/:mode", async (req, res) => {
+	const { id, mode } = req.params;
+	console.log(id, mode);
+	const results = await fetchMovieCustom({ id, mode });
 	return res.status(200).json(results);
 });
 

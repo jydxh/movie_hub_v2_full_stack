@@ -7,6 +7,7 @@ const fetchGenres = require("../api/fetchGenres");
 const fetchMovieDetail = require("../api/fetchMovieDetail");
 const fetchMovieCustom = require("../api/fetchMovieCustom");
 const fetchTvList = require("../api/fetchTvList");
+const fetchTvMulti = require("../api/fetchTvMulti");
 
 const router = express.Router();
 
@@ -74,4 +75,17 @@ router.get("/discover/tv", async (req, res) => {
 	return res.status(200).json(results);
 });
 
+// tv_show-> tv_detail-> fetchTvMulti
+router.get("/tv/:id", async (req, res) => {
+	const { id } = req.params;
+	const results = await fetchTvMulti({ id, mode: "multi" });
+	return res.status(200).json(results);
+});
+
+// tv_show -> fetch iamges
+router.get("/tv/:id/images", async (req, res) => {
+	const { id } = req.params;
+	const results = await fetchTvMulti({ id, mode: "image" });
+	return res.status(200).json(results);
+});
 module.exports = router;

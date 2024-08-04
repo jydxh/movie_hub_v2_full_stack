@@ -61,12 +61,12 @@ const login = async (req, res) => {
 	if (!user) {
 		return res
 			.status(401)
-			.json({ mgs: "incorrect email or password, please try again!" });
+			.json({ msg: "incorrect email or password, please try again!" });
 	}
 	if (!(await user.comparePwd(password))) {
 		return res
 			.status(401)
-			.json({ mgs: "incorrect email or password, please try again!" });
+			.json({ msg: "incorrect email or password, please try again!" });
 	}
 	if (!user.isVerified) {
 		return res.status(401).json({ msg: "please verify you email first" });
@@ -92,7 +92,7 @@ const login = async (req, res) => {
 		expiresIn: token.expiresIn,
 	};
 	await attatchCookiesToRes(payload);
-	res.status(200).json({ msg: "login success! hello user:" + user.name });
+	res.status(200).json({ username: user.name, id: user._id });
 };
 
 module.exports = { register, verifyEmail, login };

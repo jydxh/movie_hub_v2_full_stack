@@ -1,8 +1,18 @@
 import { Button } from "@mui/material";
-import { ActionFunction, Form, redirect } from "react-router-dom";
+import {
+	ActionFunction,
+	Form,
+	json,
+	redirect,
+	useActionData,
+	useNavigation,
+} from "react-router-dom";
 import { store } from "@/store";
 import { login } from "@/feature/User/userSlice";
 import { Link } from "react-router-dom";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { Alert, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export const action: ActionFunction = async ({
 	request,
@@ -12,15 +22,36 @@ export const action: ActionFunction = async ({
 		username: string;
 		password: string;
 	};
-	console.log(formData);
-	alert(
-		"sending data to back end for authentication and return the JWT, the Backend Comming soon"
-	);
-	store.dispatch(login(formData));
-	return redirect("/");
+
+	try {
+		const res: AxiosResponse<{ username: string; id: string }> =
+			await axios.post("/api/v1/auth/login", formData);
+		const { username, id } = res.data;
+		store.dispatch(login({ username, id }));
+		return redirect("/");
+	} catch (err) {
+		const error = err as AxiosError<{ msg: string }>;
+		console.log(error);
+		return json({ msg: error.response?.data.msg, status: 400 });
+	}
 };
 
 function Login() {
+	const { state } = useNavigation();
+	const data = useActionData() as { msg: string; status: number };
+	const [showAlert, setShowAlert] = useState<boolean>(true);
+	const [interacted, setInteracted] = useState<boolean>(false);
+	const handleFocus = () => {
+		setInteracted(true);
+	};
+	const handleBlur = () => {
+		if (interacted) setShowAlert(false);
+	};
+	useEffect(() => {
+		if (data) {
+			setShowAlert(true);
+		}
+	}, [data]);
 	return (
 		<div
 			className="grid place-content-center h-screen"
@@ -37,48 +68,68 @@ function Login() {
 					Login
 				</p>
 				<div className="mt-8 flex justify-center items-center ">
-					<label htmlFor="username" className="md:text-xl w-[8rem] ">
+					<label htmlFor="email" className="text-sm md:text-base w-[8rem] ">
 						Email
 					</label>
 					<input
-						placeholder="username / email address"
-						id="username"
-						type="text"
-						name="username"
-						className="bg-slate-600  rounded p-2 text-sm md:text-lg"
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						placeholder="email address"
+						id="email"
+						type="email"
+						name="email"
+						className="bg-slate-600  rounded p-2 text-sm md:text-base"
 					/>
 				</div>
 				<div className="mt-8 flex justify-center items-center ">
-					<label htmlFor="password" className="md:text-xl w-[8rem]">
+					<label htmlFor="password" className="text-sm md:text-base w-[8rem]">
 						Password
 					</label>
 					<input
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 						placeholder="password"
 						id="password"
 						type="password"
 						name="password"
-						className="bg-slate-600 rounded p-2 text-sm md:text-lg"
+						className="bg-slate-600 rounded p-2 text-sm md:text-base"
 					/>
 				</div>
-				<div className="mt-8 flex justify-center items-center gap-x-4">
-					<Button color="primary" type="submit">
-						Login
-					</Button>
-					<Button color="secondary" type="reset">
-						Reset
-					</Button>
-				</div>
-				<div className="flex  items-center justify-center gap-x-4">
-					<p>Not a member yet? </p>
-					<Button type="button">
-						<Link to="/register">Register</Link>
-					</Button>
-				</div>
-				<div className="flex justify-center mt-4">
-					<Button type="button" color="info">
-						<Link to="/">Back Home</Link>
-					</Button>
-				</div>
+
+				{showAlert && data && data.status && (
+					<Alert severity="error" className="mt-4">
+						{data.msg}
+					</Alert>
+				)}
+
+				{state === "idle" && (
+					<>
+						<div className="mt-4 flex justify-center items-center gap-x-4">
+							<Button color="primary" type="submit">
+								Login
+							</Button>
+							<Button color="secondary" type="reset">
+								Reset
+							</Button>
+						</div>
+						<div className="flex  items-center justify-center gap-x-4">
+							<p>Not a member yet? </p>
+							<Button type="button">
+								<Link to="/register">Register</Link>
+							</Button>
+						</div>
+						<div className="flex justify-center mt-4">
+							<Button type="button" color="info">
+								<Link to="/">Back Home</Link>
+							</Button>
+						</div>
+					</>
+				)}
+				{state === "submitting" && (
+					<div className="mt-8 flex justify-center items-center gap-x-4">
+						<CircularProgress /> <p>Submitting...</p>
+					</div>
+				)}
 			</Form>
 		</div>
 	);

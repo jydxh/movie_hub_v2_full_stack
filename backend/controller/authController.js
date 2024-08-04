@@ -3,7 +3,7 @@ const User = require("../model/User");
 const crypto = require("crypto");
 const { promisify } = require("util");
 const cryptpRandomByte = promisify(crypto.randomBytes);
-const sendEmail = require("../utils/sendEmail");
+const { sendEmail, sendDummyEamil } = require("../utils/sendEmail");
 
 const origin = "http://localhost:5173";
 
@@ -32,8 +32,24 @@ const register = async (req, res) => {
 		html: `<h2>Hello ${user.name}</h2> ${message}`,
 	};
 	//console.log(emailConfi);
-	await sendEmail(emailConfi);
+	//await sendEmail(emailConfi);
+	await sendDummyEamil(emailConfi);
 	res.status(201).json({ name: user.name, id: user._id, verificationToke });
 };
 
-module.exports = { register };
+const verifyEmail = async (req, res) => {
+	const { email, token } = req.body;
+	const user = await User.findOne({ email });
+	if (user.verificationToke !== token) {
+		return res
+			.status(401)
+			.json({ msg: "failed to verify eamil, please try again!" });
+	}
+	user.isVerified = true;
+	user.verificationToke = "";
+	await user.save();
+	await new Promise(resolve => setTimeout(resolve, 2000)); // set 2s delay on purpse, so front-end can see the ui, deleted this line at production
+	res.status(200).json({ msg: "success verify email, now you can log in" });
+};
+
+module.exports = { register, verifyEmail };

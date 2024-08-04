@@ -1,6 +1,6 @@
 import {
-	//	createBrowserRouter,
-	createHashRouter,
+	createBrowserRouter,
+	//createHashRouter,
 	RouterProvider,
 } from "react-router-dom";
 import {
@@ -27,6 +27,7 @@ import {
 	TvReviews,
 	TvSeasons,
 	Error,
+	VerifyEmail,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";
@@ -48,9 +49,10 @@ import tvListsLoader from "./utils/tvListsLoader";
 import { loader as PopularPeopleLoader } from "@/pages/People";
 import { loader as TvSeasonsLoader } from "@/pages/TV/TvSeasons";
 import { loader as SinglePersonLoader } from "@/pages/SinglePerson";
+//import { loader as VerifyEmailLoader } from "@/pages/VerifyEmail";
 
-//const router = createBrowserRouter([
-const router = createHashRouter([
+const router = createBrowserRouter([
+	//const router = createHashRouter([
 	{
 		path: "/",
 		element: <Layout />,
@@ -173,6 +175,11 @@ const router = createHashRouter([
 		path: "/register",
 		element: <Register />,
 		action: RegisterAction,
+	},
+	{
+		path: "/userAuth/verify-email",
+		element: <VerifyEmail />,
+		//	loader: VerifyEmailLoader,
 	},
 ]);
 

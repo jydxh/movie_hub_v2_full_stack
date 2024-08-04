@@ -1,4 +1,4 @@
-//const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 
 const sendEmail = async ({ html, to, subject }) => {
@@ -15,4 +15,22 @@ const sendEmail = async ({ html, to, subject }) => {
 		console.log(err);
 	}
 };
-module.exports = sendEmail;
+
+const sendDummyEamil = async ({ html, to, subject }) => {
+	const transporter = nodemailer.createTransport({
+		host: "smtp.ethereal.email",
+		port: 587,
+		auth: {
+			user: "brad.bosco@ethereal.email",
+			pass: "qPsQPErcnAfnqGtBjR",
+		},
+	});
+	const msg = {
+		from: "wzxxds@gmail.com",
+		to,
+		subject,
+		html,
+	};
+	await transporter.sendMail(msg);
+};
+module.exports = { sendEmail, sendDummyEamil };

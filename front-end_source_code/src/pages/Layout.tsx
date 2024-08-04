@@ -16,7 +16,7 @@ function Layout() {
 
 	const { pathname } = useLocation(); // use location to get the current location url info and destruct the pathname
 	const navigate = useNavigate(); // programmaly nav to the path, so to update the ui
-
+	sessionStorage.setItem("redirectTo", pathname);
 	const handlelogout = () => {
 		store.dispatch(logout());
 		navigate("/");

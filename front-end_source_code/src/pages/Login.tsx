@@ -22,13 +22,15 @@ export const action: ActionFunction = async ({
 		username: string;
 		password: string;
 	};
+	const redirectTo = sessionStorage.getItem("redirectTo") || "/";
+	sessionStorage.removeItem("redirectTo");
 
 	try {
 		const res: AxiosResponse<{ username: string; id: string }> =
 			await axios.post("/api/v1/auth/login", formData);
 		const { username, id } = res.data;
 		store.dispatch(login({ username, id }));
-		return redirect("/");
+		return redirect(redirectTo);
 	} catch (err) {
 		const error = err as AxiosError<{ msg: string }>;
 		console.log(error);

@@ -42,13 +42,13 @@ const register = async (req, res) => {
 const verifyEmail = async (req, res) => {
 	const { email, token } = req.body;
 	const user = await User.findOne({ email });
-	if (user.verificationToke !== token) {
+	if (user.verificationToken !== token) {
 		return res
 			.status(401)
 			.json({ msg: "failed to verify eamil, please try again!" });
 	}
 	user.isVerified = true;
-	user.verificationToke = "";
+	user.verificationToken = "";
 	user.verified = Date.now();
 	await user.save();
 	await new Promise(resolve => setTimeout(resolve, 2000)); // set 2s delay on purpse, so front-end can see the ui, deleted this line at production

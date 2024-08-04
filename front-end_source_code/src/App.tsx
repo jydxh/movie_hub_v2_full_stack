@@ -28,7 +28,6 @@ import {
 	TvSeasons,
 	Error,
 	VerifyEmail,
-	ConfirmRegistration,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";

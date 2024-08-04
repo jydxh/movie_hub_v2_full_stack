@@ -2,36 +2,59 @@ import {
 	ActionFunction,
 	Form,
 	Link,
-	redirect,
 	useActionData,
 	json,
+	useNavigation,
+	useNavigate,
 } from "react-router-dom";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { AxiosError } from "axios";
-import Alert from "@mui/material/Alert";
-
+import { AxiosError, AxiosResponse } from "axios";
+import { Alert, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
 export const action: ActionFunction = async ({
 	request,
 }): Promise<Response> => {
 	const formRawData = await request.formData();
 	const formData = Object.fromEntries(formRawData);
-	console.log(formData);
+
 	try {
-		await axios.post("/api/v1/auth/register", formData);
-		return redirect("/confirm_registration");
+		const res: AxiosResponse<{ name: string; id: string; email: string }> =
+			await axios.post("/api/v1/auth/register", formData);
+		return json({
+			msg: `Registration success, please visit your email: ${res.data.email} to confirm your email address!`,
+			status: 200,
+		});
 	} catch (err) {
 		console.log(err);
 		const error = err as AxiosError<{
 			msg: string;
 		}>;
 		const msg = error.response?.data.msg;
-		return json({ error: msg });
+		return json({ msg, status: 500 });
 	}
 };
 
 function Register() {
-	const error = useActionData() as { error: string };
+	const data = useActionData() as { msg: string; status: number };
+	const { state } = useNavigation();
+	const navigate = useNavigate();
+	const [hasInteracted, setHasInteracted] = useState<boolean>(false);
+	const [showAlert, setShowAlert] = useState<boolean>(true);
+
+	const handleFocus = () => {
+		setHasInteracted(true);
+		setShowAlert(false);
+	};
+	const handleBlur = () => {
+		if (hasInteracted) setShowAlert(false);
+	};
+
+	useEffect(() => {
+		if (data) {
+			setShowAlert(true);
+		}
+	}, [data]);
 	return (
 		<div
 			className="grid place-content-center h-screen"
@@ -52,6 +75,8 @@ function Register() {
 						name
 					</label>
 					<input
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 						required
 						placeholder="Name"
 						id="name"
@@ -65,6 +90,8 @@ function Register() {
 						Email
 					</label>
 					<input
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 						required
 						placeholder="Email Address"
 						id="username"
@@ -78,6 +105,8 @@ function Register() {
 						Password
 					</label>
 					<input
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 						required
 						placeholder="Password"
 						id="password"
@@ -91,6 +120,8 @@ function Register() {
 						Confirm Password
 					</label>
 					<input
+						onFocus={handleFocus}
+						onBlur={handleBlur}
 						required
 						placeholder="Confirm Your Password"
 						id="repeat_password"
@@ -99,31 +130,49 @@ function Register() {
 						className="bg-slate-600 rounded p-2 w-[24rem]"
 					/>
 				</div>
-				{error && (
+				{showAlert && data && data.status === 500 && (
 					<Alert severity="error" className="mt-4">
-						{error.error}
+						{data.msg}
+					</Alert>
+				)}
+				{showAlert && data && data.status === 200 && (
+					<Alert severity="success" className="mt-4">
+						{data.msg}
 					</Alert>
 				)}
 
-				<div className="mt-4 flex justify-center items-center gap-x-4">
-					<Button color="primary" type="submit">
-						Register
-					</Button>
-					<Button color="secondary" type="reset">
-						Reset
-					</Button>
-				</div>
-				<div className="flex  items-center justify-center gap-x-4">
-					<p>Alreat a member? </p>
-					<Button type="button">
-						<Link to="/login">Login</Link>
-					</Button>
-				</div>
-				<div className="flex justify-center mt-4">
-					<Button type="button" color="info">
-						<Link to="/">Back Home</Link>
-					</Button>
-				</div>
+				{state === "idle" && (
+					<>
+						<div className="mt-4 flex justify-center items-center gap-x-4">
+							<Button color="primary" type="submit">
+								Register
+							</Button>
+							<Button
+								color="secondary"
+								onClick={() => {
+									navigate("/register");
+								}}>
+								Reset
+							</Button>
+						</div>
+						<div className="flex  items-center justify-center gap-x-4">
+							<p>Alreat a member? </p>
+							<Button type="button">
+								<Link to="/login">Login</Link>
+							</Button>
+						</div>
+						<div className="flex justify-center mt-4">
+							<Button type="button" color="info">
+								<Link to="/">Back Home</Link>
+							</Button>
+						</div>
+					</>
+				)}
+				{state === "submitting" && (
+					<div className="mt-4 flex justify-center items-center gap-x-4">
+						<CircularProgress disableShrink />
+					</div>
+				)}
 			</Form>
 		</div>
 	);

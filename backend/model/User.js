@@ -18,7 +18,7 @@ const UserSchema = new Schema(
 			required: [true, "password is required"],
 			type: String,
 		},
-		verificationToke: String,
+		verificationToken: String,
 		isVerified: {
 			type: Boolean,
 			default: false,

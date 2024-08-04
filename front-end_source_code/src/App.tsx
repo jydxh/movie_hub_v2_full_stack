@@ -178,10 +178,6 @@ const router = createBrowserRouter([
 		action: RegisterAction,
 	},
 	{
-		path: "/confirm_registration",
-		element: <ConfirmRegistration />,
-	},
-	{
 		path: "/userAuth/verify-email",
 		element: <VerifyEmail />,
 		//	loader: VerifyEmailLoader,

@@ -21,11 +21,11 @@ const register = async (req, res) => {
 	if (emailExists) {
 		return res.status(400).json({ msg: "Email already exists" });
 	}
-	const verificationToke = (await cryptpRandomByte(32)).toString("hex");
+	const verificationToken = (await cryptpRandomByte(32)).toString("hex");
 
-	const user = await User.create({ name, email, password, verificationToke });
+	const user = await User.create({ name, email, password, verificationToken });
 	/* sending email to verify the email */
-	const verifyEmail = `${origin}/userAuth/verify-email?token=${user.verificationToke}&email=${user.email}`;
+	const verifyEmail = `${origin}/userAuth/verify-email?token=${user.verificationToken}&email=${user.email}`;
 	const message = `<p>Please confirm your email by clicking on the following link : 
   <a href="${verifyEmail}">Verify Email</a> </p>`;
 	const emailConfi = {
@@ -36,7 +36,7 @@ const register = async (req, res) => {
 	//console.log(emailConfi);
 	//await sendEmail(emailConfi);
 	await sendDummyEamil(emailConfi);
-	res.status(201).json({ name: user.name, id: user._id, verificationToke });
+	res.status(201).json({ name: user.name, id: user._id, email: user.email });
 };
 
 const verifyEmail = async (req, res) => {

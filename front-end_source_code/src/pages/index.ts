@@ -31,10 +31,8 @@ import TvReviews from "./TV/TvReviews";
 import TvSeasons from "./TV/TvSeasons";
 import Error from "./Error";
 import VerifyEmail from "./VerifyEmail";
-import ConfirmRegistration from "./ConfirmRegistration";
 
 export {
-	ConfirmRegistration,
 	VerifyEmail,
 	Error,
 	TvSeasons,

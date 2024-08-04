@@ -112,8 +112,8 @@ router.get("/person/:id", async (req, res) => {
 router.get("/search/:mode", async (req, res) => {
 	const { mode } = req.params;
 	const { page, query } = req.query;
-
 	const results = await fetchMultiSearch({ query, page, mode });
 	return res.status(200).json(results);
 });
+
 module.exports = router;

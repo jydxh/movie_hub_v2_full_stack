@@ -1,11 +1,17 @@
 const express = require("express");
-const { register, verifyEmail } = require("../controller/authController");
+const {
+	register,
+	verifyEmail,
+	login,
+} = require("../controller/authController");
 const pre_register = require("../middleware/authMiddleware/pre_register");
 const pre_verifyEmail = require("../middleware/authMiddleware/pre_verifyEmail");
+const pre_login = require("../middleware/authMiddleware/pre_login");
 
 const router = express.Router();
 
 router.post("/register", pre_register, register);
 router.post("/verify-email", pre_verifyEmail, verifyEmail);
+router.post("/login", pre_login, login);
 
 module.exports = router;

@@ -1,9 +1,11 @@
 const User = require("../model/User");
-
+const Token = require("../model/Token");
 const crypto = require("crypto");
+
 const { promisify } = require("util");
 const cryptpRandomByte = promisify(crypto.randomBytes);
 const { sendEmail, sendDummyEamil } = require("../utils/sendEmail");
+const { attatchCookiesToRes, decodeJwt } = require("../utils/jwt");
 
 const origin = "http://localhost:5173";
 
@@ -47,9 +49,50 @@ const verifyEmail = async (req, res) => {
 	}
 	user.isVerified = true;
 	user.verificationToke = "";
+	user.verified = Date.now();
 	await user.save();
 	await new Promise(resolve => setTimeout(resolve, 2000)); // set 2s delay on purpse, so front-end can see the ui, deleted this line at production
 	res.status(200).json({ msg: "success verify email, now you can log in" });
 };
 
-module.exports = { register, verifyEmail };
+const login = async (req, res) => {
+	const { email, password } = req.body;
+	const user = await User.findOne({ email });
+	if (!user) {
+		return res
+			.status(401)
+			.json({ mgs: "incorrect email or password, please try again!" });
+	}
+	if (!(await user.comparePwd(password))) {
+		return res
+			.status(401)
+			.json({ mgs: "incorrect email or password, please try again!" });
+	}
+	if (!user.isVerified) {
+		return res.status(401).json({ msg: "please verify you email first" });
+	}
+	/* pass the verify, generete jwt and send back to user */
+	const refreshToken = (await cryptpRandomByte(32)).toString("hex");
+	const ip = req.ip;
+	const userAgent = req.headers["user-agent"];
+	const userToken = {
+		refreshToken,
+		ip,
+		userAgent,
+		expiresIn: Date.now() + 1000 * 60 * 60 * 24 * 30,
+	};
+
+	const token = await Token.create(userToken);
+
+	const payload = {
+		res,
+		name: user.name,
+		id: user._id,
+		refreshToken: token.refreshToken,
+		expiresIn: token.expiresIn,
+	};
+	await attatchCookiesToRes(payload);
+	res.status(200).json({ msg: "login success! hello user:" + user.name });
+};
+
+module.exports = { register, verifyEmail, login };

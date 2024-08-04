@@ -4,6 +4,7 @@ require("express-async-errors");
 const express = require("express");
 const errorHanlderModdleware = require("./middleware/error-handler");
 const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
 const app = express();
 const getMediaRouter = require("./routes/getMediaRouter");
 const authRouter = require("./routes/authRouter");
@@ -11,6 +12,7 @@ const authRouter = require("./routes/authRouter");
 app.set("trust proxy", 1);
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cookieParser(process.env.JWT_SECRET));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1", getMediaRouter);

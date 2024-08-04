@@ -32,7 +32,10 @@ export const action: ActionFunction = async ({
 	} catch (err) {
 		const error = err as AxiosError<{ msg: string }>;
 		console.log(error);
-		return json({ msg: error.response?.data.msg, status: 400 });
+		return json({
+			msg: error.response?.data.msg || "something wrong, please try again",
+			status: 400,
+		});
 	}
 };
 

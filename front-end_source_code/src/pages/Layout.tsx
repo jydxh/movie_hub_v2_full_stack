@@ -17,7 +17,7 @@ function Layout() {
 	const navigate = useNavigate(); // programmaly nav to the path, so to update the ui
 	const handlelogout = () => {
 		store.dispatch(logout());
-		navigate(pathname);
+		navigate("/");
 	};
 	return (
 		<>

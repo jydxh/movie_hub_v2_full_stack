@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new Schema(
 	{
@@ -28,5 +29,15 @@ const UserSchema = new Schema(
 	},
 	{ timeStamp: true }
 );
+
+UserSchema.pre("save", async function () {
+	if (!this.isModified("password")) return; // this line of code is important! it check only if password field changed, next line will run, otherwise just return void
+	const salt = await bcrypt.genSalt(10);
+	this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.methods.comparePwd = async function (inputPwd) {
+	return await bcrypt.compare(inputPwd, this.password);
+};
 
 module.exports = model("User", UserSchema);

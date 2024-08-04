@@ -1,6 +1,9 @@
+const User = require("../model/User");
 const register = async (req, res) => {
-	console.log(req.body);
-	res.send("register");
+	const { name, email, password } = req.body;
+
+	const user = await User.create({ name, email, password });
+	res.send(user);
 };
 
 module.exports = { register };

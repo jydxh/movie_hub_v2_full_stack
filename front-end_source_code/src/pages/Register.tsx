@@ -1,5 +1,6 @@
 import { ActionFunction, Form, Link, redirect } from "react-router-dom";
 import { Button } from "@mui/material";
+import axios from "axios";
 
 export const action: ActionFunction = async ({
 	request,
@@ -7,9 +8,8 @@ export const action: ActionFunction = async ({
 	const formRawData = await request.formData();
 	const formData = Object.fromEntries(formRawData);
 	console.log(formData);
-	alert(
-		"received the user input, back-end coding and user input validation is on the way"
-	);
+	const data = await axios.post("/api/v1/auth/register", formData);
+	console.log(data);
 	return redirect("/login");
 };
 
@@ -30,14 +30,28 @@ function Register() {
 					Registration
 				</p>
 				<div className="mt-8 flex justify-start items-center gap-x-2">
-					<label htmlFor="username" className="text-xl w-[10rem]">
-						Username
+					<label htmlFor="name" className="text-xl w-[10rem]">
+						name
 					</label>
 					<input
+						required
+						placeholder="name"
+						id="name"
+						type="text"
+						name="name"
+						className="bg-slate-600 rounded p-2 w-[24rem]"
+					/>
+				</div>
+				<div className="mt-8 flex justify-start items-center gap-x-2">
+					<label htmlFor="email" className="text-xl w-[10rem]">
+						Email
+					</label>
+					<input
+						required
 						placeholder="username / email address"
 						id="username"
 						type="text"
-						name="username"
+						name="email"
 						className="bg-slate-600 rounded p-2 w-[24rem]"
 					/>
 				</div>
@@ -46,6 +60,7 @@ function Register() {
 						Password
 					</label>
 					<input
+						required
 						placeholder="password"
 						id="password"
 						type="password"
@@ -54,14 +69,15 @@ function Register() {
 					/>
 				</div>
 				<div className="mt-8 flex justify-center items-center gap-x-2">
-					<label htmlFor="password" className="text-xl w-[10rem]">
+					<label htmlFor="repeat_password" className="text-xl w-[10rem]">
 						Confirm Password
 					</label>
 					<input
+						required
 						placeholder="Confirm Your Password"
-						id="repeat-password"
+						id="repeat_password"
 						type="password"
-						name="repeat-password"
+						name="repeat_password"
 						className="bg-slate-600 rounded p-2 w-[24rem]"
 					/>
 				</div>

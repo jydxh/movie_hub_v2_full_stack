@@ -17,6 +17,14 @@ const UserSchema = new Schema(
 			required: [true, "password is required"],
 			type: String,
 		},
+		verificationToke: String,
+		isVerified: {
+			type: Boolean,
+			default: false,
+		},
+		verified: Date,
+		passwordToken: String,
+		passwordTokenExpirationDate: Date,
 	},
 	{ timeStamp: true }
 );

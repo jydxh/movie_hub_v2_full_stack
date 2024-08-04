@@ -43,12 +43,12 @@ const pre_register = async (req, res, next) => {
 				msg: "password must between 6 to 20 characters without non-alphanumeric character",
 			});
 		}
-
 		if (errmsg.includes("email")) {
 			return res
 				.status(400)
 				.json({ msg: "please provide valid email address" });
 		}
+		return next(error);
 	}
 };
 module.exports = pre_register;

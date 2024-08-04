@@ -28,6 +28,7 @@ import {
 	TvSeasons,
 	Error,
 	VerifyEmail,
+	ConfirmRegistration,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";
@@ -175,6 +176,10 @@ const router = createBrowserRouter([
 		path: "/register",
 		element: <Register />,
 		action: RegisterAction,
+	},
+	{
+		path: "/confirm_registration",
+		element: <ConfirmRegistration />,
 	},
 	{
 		path: "/userAuth/verify-email",

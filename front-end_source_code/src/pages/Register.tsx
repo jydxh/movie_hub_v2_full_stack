@@ -1,6 +1,15 @@
-import { ActionFunction, Form, Link, redirect } from "react-router-dom";
+import {
+	ActionFunction,
+	Form,
+	Link,
+	redirect,
+	useActionData,
+	json,
+} from "react-router-dom";
 import { Button } from "@mui/material";
 import axios from "axios";
+import { AxiosError } from "axios";
+import Alert from "@mui/material/Alert";
 
 export const action: ActionFunction = async ({
 	request,
@@ -8,12 +17,21 @@ export const action: ActionFunction = async ({
 	const formRawData = await request.formData();
 	const formData = Object.fromEntries(formRawData);
 	console.log(formData);
-	const data = await axios.post("/api/v1/auth/register", formData);
-	console.log(data);
-	return redirect("/login");
+	try {
+		await axios.post("/api/v1/auth/register", formData);
+		return redirect("/confirm_registration");
+	} catch (err) {
+		console.log(err);
+		const error = err as AxiosError<{
+			msg: string;
+		}>;
+		const msg = error.response?.data.msg;
+		return json({ error: msg });
+	}
 };
 
 function Register() {
+	const error = useActionData() as { error: string };
 	return (
 		<div
 			className="grid place-content-center h-screen"
@@ -26,16 +44,16 @@ function Register() {
 			<Form
 				method="POST"
 				className=" border rounded-xl p-8 md:w-[30rem] w-[24rem] bg-slate-700 ">
-				<p className="text-center mx-auto text-3xl font-semibold">
+				<p className="text-center mx-auto  md:text-3xl font-semibold">
 					Registration
 				</p>
 				<div className="mt-8 flex justify-start items-center gap-x-2">
-					<label htmlFor="name" className="text-xl w-[10rem]">
+					<label htmlFor="name" className="md:text-xl  w-[10rem]">
 						name
 					</label>
 					<input
 						required
-						placeholder="name"
+						placeholder="Name"
 						id="name"
 						type="text"
 						name="name"
@@ -43,12 +61,12 @@ function Register() {
 					/>
 				</div>
 				<div className="mt-8 flex justify-start items-center gap-x-2">
-					<label htmlFor="email" className="text-xl w-[10rem]">
+					<label htmlFor="email" className="md:text-xl w-[10rem]">
 						Email
 					</label>
 					<input
 						required
-						placeholder="username / email address"
+						placeholder="Email Address"
 						id="username"
 						type="text"
 						name="email"
@@ -56,12 +74,12 @@ function Register() {
 					/>
 				</div>
 				<div className="mt-8 flex justify-center items-center gap-x-2">
-					<label htmlFor="password" className="text-xl w-[10rem]">
+					<label htmlFor="password" className="md:text-xl w-[10rem]">
 						Password
 					</label>
 					<input
 						required
-						placeholder="password"
+						placeholder="Password"
 						id="password"
 						type="password"
 						name="password"
@@ -69,7 +87,7 @@ function Register() {
 					/>
 				</div>
 				<div className="mt-8 flex justify-center items-center gap-x-2">
-					<label htmlFor="repeat_password" className="text-xl w-[10rem]">
+					<label htmlFor="repeat_password" className="md:text-xl w-[10rem]">
 						Confirm Password
 					</label>
 					<input
@@ -81,7 +99,13 @@ function Register() {
 						className="bg-slate-600 rounded p-2 w-[24rem]"
 					/>
 				</div>
-				<div className="mt-8 flex justify-center items-center gap-x-4">
+				{error && (
+					<Alert severity="error" className="mt-4">
+						{error.error}
+					</Alert>
+				)}
+
+				<div className="mt-4 flex justify-center items-center gap-x-4">
 					<Button color="primary" type="submit">
 						Register
 					</Button>

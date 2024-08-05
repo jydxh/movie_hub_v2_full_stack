@@ -79,6 +79,7 @@ const login = async (req, res) => {
 		refreshToken,
 		ip,
 		userAgent,
+		user: user._id,
 		expiresIn: Date.now() + 1000 * 60 * 60 * 24 * 30,
 	};
 
@@ -95,4 +96,25 @@ const login = async (req, res) => {
 	res.status(200).json({ username: user.name, id: user._id });
 };
 
-module.exports = { register, verifyEmail, login };
+const logout = async (req, res) => {
+	const { userId } = req.user;
+	await Token.findOneAndDelete({
+		user: userId,
+		userAgent: req.headers["user-agent"],
+	});
+	res.cookie("accessToken", "token", {
+		httpOnly: true,
+		signed: true,
+		secure: process.env.NODE_ENV === "production",
+		maxAge: 1000 * 5,
+	});
+	res.cookie("refreshToken", "token", {
+		httpOnly: true,
+		signed: true,
+		secure: process.env.NODE_ENV === "production",
+		maxAge: 1000 * 5,
+	});
+	res.status(200).json({ msg: "user logged out!" });
+};
+
+module.exports = { register, verifyEmail, login, logout };

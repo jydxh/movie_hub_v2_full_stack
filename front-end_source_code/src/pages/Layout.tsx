@@ -8,6 +8,7 @@ import Footer from "@/components/HomeLayout/Footer";
 import { Button } from "@mui/material";
 import { store } from "@/store";
 import { logout } from "@/feature/User/userSlice";
+import { customFetch } from "@/api/customFetch";
 
 import { ScrollRestoration } from "react-router-dom";
 
@@ -17,8 +18,13 @@ function Layout() {
 	const { pathname } = useLocation(); // use location to get the current location url info and destruct the pathname
 	const navigate = useNavigate(); // programmaly nav to the path, so to update the ui
 	sessionStorage.setItem("redirectTo", pathname);
-	const handlelogout = () => {
+	const handlelogout = async () => {
 		store.dispatch(logout());
+		try {
+			await customFetch.post("/auth/logout");
+		} catch (err) {
+			console.log(err);
+		}
 		navigate("/");
 	};
 	return (

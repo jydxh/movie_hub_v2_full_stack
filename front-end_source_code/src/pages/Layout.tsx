@@ -5,6 +5,7 @@ import NavInline from "@/components/HomeLayout/NavInline";
 import NavList from "@/components/HomeLayout/NavList";
 import ThemeToggle from "@/components/HomeLayout/ThemeToggle";
 import Footer from "@/components/HomeLayout/Footer";
+import UserMenu from "@/components/HomeLayout/UserMenu";
 import { Button } from "@mui/material";
 import { store } from "@/store";
 import { logout } from "@/feature/User/userSlice";
@@ -108,12 +109,10 @@ function Layout() {
 					<div className="flex gap-x-1 items-center">
 						<ThemeToggle />
 						{username ? (
-							<>
-								<p>Welcome {username}</p>
-								<Button className="capitalize" onClick={handlelogout}>
-									Logout
-								</Button>
-							</>
+							<div>
+								Welcome
+								<UserMenu handlelogout={handlelogout}>{username}</UserMenu>
+							</div>
 						) : (
 							<>
 								<Button>

@@ -1,5 +1,6 @@
 import { Button, Menu, MenuItem } from "@mui/material";
 import { ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
 
 interface UserMenuProps {
 	children: ReactNode;
@@ -34,7 +35,9 @@ function UserMenu({ children, handlelogout }: UserMenuProps) {
 				MenuListProps={{
 					"aria-labelledby": "basic-button",
 				}}>
-				<MenuItem onClick={handleClose}>Profile</MenuItem>
+				<MenuItem onClick={handleClose}>
+					<Link to="/user/profile">Profile</Link>
+				</MenuItem>
 				<MenuItem onClick={handleClose}>My account</MenuItem>
 				<MenuItem onClick={handlelogout}>Logout</MenuItem>
 			</Menu>

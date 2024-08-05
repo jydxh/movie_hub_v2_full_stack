@@ -28,6 +28,7 @@ import {
 	TvSeasons,
 	Error,
 	VerifyEmail,
+	UserProfile,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
 		errorElement: <Error />,
 		children: [
 			{ index: true, element: <Home /> },
+			{ path: "user/profile", element: <UserProfile /> },
 			{
 				path: "movie",
 				element: <MovieLayout />,

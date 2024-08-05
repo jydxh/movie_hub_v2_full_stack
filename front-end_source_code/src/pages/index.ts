@@ -31,8 +31,10 @@ import TvReviews from "./TV/TvReviews";
 import TvSeasons from "./TV/TvSeasons";
 import Error from "./Error";
 import VerifyEmail from "./VerifyEmail";
+import UserProfile from "./User/UserProfile";
 
 export {
+	UserProfile,
 	VerifyEmail,
 	Error,
 	TvSeasons,

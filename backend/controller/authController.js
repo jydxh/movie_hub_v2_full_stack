@@ -81,7 +81,7 @@ const login = async (req, res) => {
 		userAgent,
 		user: user._id,
 		expiresIn: Date.now() + 1000 * 60 * 60 * 24 * 30, //30days
-		//expiresIn: Date.now() + 1000 * 7, // 7s for testing front-end auto logout
+		// expiresIn: Date.now() + 1000 * 7, // 7s for testing front-end auto logout
 	};
 
 	const token = await Token.create(userToken);

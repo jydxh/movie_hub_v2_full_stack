@@ -19,6 +19,7 @@ function Layout() {
 	const { pathname } = useLocation(); // use location to get the current location url info and destruct the pathname
 	const navigate = useNavigate(); // programmaly nav to the path, so to update the ui
 	sessionStorage.setItem("redirectTo", pathname);
+
 	const handlelogout = useCallback(async () => {
 		store.dispatch(logout());
 		try {
@@ -29,21 +30,45 @@ function Layout() {
 		navigate("/");
 	}, [navigate]);
 
-	let expiredTime = 0;
-	if (store.getState().user.exp) {
-		expiredTime = new Date(store.getState().user.exp!).getTime() - Date.now();
-		console.log(expiredTime);
-	}
 	useEffect(() => {
-		/* this is for automatically logout purpose, although user could change localStorage, but the refreshJWT at cookie will expired, and user still cannot fetch protected data */
+		/* this is for automatically logout purpose, although user could change localStorage, 
+		but the refreshJWT at cookie will expired, and user still cannot fetch protected data */
 
-		if (expiredTime > 0) {
-			const timer = setTimeout(() => {
-				handlelogout();
-			}, expiredTime);
-			return () => clearInterval(timer);
+		let expiredTime = 2000;
+		const userState = store.getState().user;
+		if (userState.exp) {
+			expiredTime = new Date(userState.exp).getTime() - Date.now();
 		}
-	}, [expiredTime, handlelogout]);
+
+		const MAX_TIMEOUT = 2 ** 31 - 1; // MaxValue for timeout
+		/* since js only allowed 2**31-1 ms time for the setTimeout, use the logic below to help fix this limit */
+		/* runTimeout is a recursion, which will take reaminTime (in ms) as arg, if the arg greater than MAX_TIMEOUT,
+		 the setTimeout will use the MAX_TIMEOUT as time, and at the end of the time call itself(runTimeout) again,
+		 and pass the time diff between remainingTime and timeout
+		 and only when the arg less than MAX_TIMEOUT, the setTimeout will use that arg as time, 
+		 and in the else block we need to return that setTimeout so useEffect clean up function clearTimeout can point to,
+		 finally when the remainingTime less or equal to 0, meaning it reach the timeExpired from store.user.exp, we use IIFE 
+		 to call the handlelogout, since it is an async function
+		 */
+		const runTimeout = (remainingTime: number): NodeJS.Timeout | void => {
+			if (remainingTime <= 0) {
+				(async () => {
+					await handlelogout();
+				})();
+			} else {
+				const timeout = Math.min(remainingTime, MAX_TIMEOUT);
+				return setTimeout(() => {
+					runTimeout(remainingTime - timeout);
+				}, timeout);
+			}
+		};
+
+		const timer = runTimeout(expiredTime);
+
+		return () => {
+			if (timer) clearTimeout(timer);
+		};
+	}, [handlelogout]);
 
 	return (
 		<>

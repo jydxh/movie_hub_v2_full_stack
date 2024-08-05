@@ -19,12 +19,14 @@ const userAuthentication = async (req, res, next) => {
 	} else {
 		if (refreshTokenJWT) {
 			const decodedRefreshToken = await decodeJwt(refreshTokenJWT);
-			console.log(decodedRefreshToken);
+			//console.log(decodedRefreshToken);
 			const { name, id, refreshToken } = decodedRefreshToken;
 			const token = await Token.findOne({
 				refreshToken,
 				userAgent: req.headers["user-agent"],
+				user: id,
 			});
+			//console.log(token);
 			if (!token || !token.isValid) {
 				return res.status(401).json({ msg: "invalid token" });
 			}

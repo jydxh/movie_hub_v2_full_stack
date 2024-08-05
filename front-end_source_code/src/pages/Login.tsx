@@ -26,10 +26,10 @@ export const action: ActionFunction = async ({
 	sessionStorage.removeItem("redirectTo");
 
 	try {
-		const res: AxiosResponse<{ username: string; id: string }> =
+		const res: AxiosResponse<{ username: string; id: string; exp: string }> =
 			await axios.post("/api/v1/auth/login", formData);
-		const { username, id } = res.data;
-		store.dispatch(login({ username, id }));
+		const { username, id, exp } = res.data;
+		store.dispatch(login({ username, id, exp }));
 		return redirect(redirectTo);
 	} catch (err) {
 		const error = err as AxiosError<{ msg: string }>;

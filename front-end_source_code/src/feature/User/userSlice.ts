@@ -4,30 +4,36 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
 	username: string | null;
+	exp: string | null;
 }
 
-const getUsernameFromLocalStorage = (): string | null => {
+const getUsernameFromLocalStorage = (): {
+	username: string | null;
+	exp: string | null;
+} => {
 	const user = localStorage.getItem("userInfo");
 	if (user) {
-		return JSON.parse(user).username;
+		return JSON.parse(user) as { username: string; exp: string };
 	}
-	return null;
+	return { username: null, exp: null };
 };
 
-const initialState: UserState = {
-	username: getUsernameFromLocalStorage(),
-};
+const initialState: UserState = getUsernameFromLocalStorage();
 
 export const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		login(state, action: PayloadAction<{ username: string; id: string }>) {
-			if (action.payload.username) {
+		login(
+			state,
+			action: PayloadAction<{ username: string; id: string; exp: string }>
+		) {
+			if (action.payload.username && action.payload.exp) {
 				state.username = action.payload.username;
+				state.exp = action.payload.exp;
 				const userInfo = {
 					username: action.payload.username,
-					id: action.payload.id,
+					exp: action.payload.exp,
 				};
 				localStorage.setItem("userInfo", JSON.stringify(userInfo));
 			}

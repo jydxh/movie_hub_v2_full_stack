@@ -11,6 +11,7 @@ import { logout } from "@/feature/User/userSlice";
 import { customFetch } from "@/api/customFetch";
 
 import { ScrollRestoration } from "react-router-dom";
+import { useEffect, useCallback } from "react";
 
 function Layout() {
 	const username = store.getState().user.username;
@@ -18,7 +19,7 @@ function Layout() {
 	const { pathname } = useLocation(); // use location to get the current location url info and destruct the pathname
 	const navigate = useNavigate(); // programmaly nav to the path, so to update the ui
 	sessionStorage.setItem("redirectTo", pathname);
-	const handlelogout = async () => {
+	const handlelogout = useCallback(async () => {
 		store.dispatch(logout());
 		try {
 			await customFetch.post("/auth/logout");
@@ -26,7 +27,24 @@ function Layout() {
 			console.log(err);
 		}
 		navigate("/");
-	};
+	}, [navigate]);
+
+	let expiredTime = 0;
+	if (store.getState().user.exp) {
+		expiredTime = new Date(store.getState().user.exp!).getTime() - Date.now();
+		console.log(expiredTime);
+	}
+	useEffect(() => {
+		/* this is for automatically logout purpose, although user could change localStorage, but the refreshJWT at cookie will expired, and user still cannot fetch protected data */
+
+		if (expiredTime > 0) {
+			const timer = setTimeout(() => {
+				handlelogout();
+			}, expiredTime);
+			return () => clearInterval(timer);
+		}
+	}, [expiredTime, handlelogout]);
+
 	return (
 		<>
 			<header

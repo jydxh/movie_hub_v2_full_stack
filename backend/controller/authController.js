@@ -80,7 +80,8 @@ const login = async (req, res) => {
 		ip,
 		userAgent,
 		user: user._id,
-		expiresIn: Date.now() + 1000 * 60 * 60 * 24 * 30,
+		expiresIn: Date.now() + 1000 * 60 * 60 * 24 * 30, //30days
+		//expiresIn: Date.now() + 1000 * 7, // 7s for testing front-end auto logout
 	};
 
 	const token = await Token.create(userToken);
@@ -93,7 +94,9 @@ const login = async (req, res) => {
 		expiresIn: token.expiresIn,
 	};
 	await attatchCookiesToRes(payload);
-	res.status(200).json({ username: user.name, id: user._id });
+	res
+		.status(200)
+		.json({ username: user.name, id: user._id, exp: token.expiresIn });
 };
 
 const logout = async (req, res) => {

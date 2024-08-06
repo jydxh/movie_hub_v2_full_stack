@@ -23,7 +23,7 @@ function UserProfile() {
 			<Divider variant="middle" className="bg-slate-500 mb-4" />
 
 			<h3 className="mx-auto text-center text-3xl mb-8">Profile</h3>
-			<Form className="pb-4">
+			<Form className="pb-4" autoComplete="off">
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
 					{formInput.map(name => {
 						return (
@@ -43,6 +43,7 @@ function UserProfile() {
 										}
 									}}
 									type="text"
+									autoComplete="off"
 									readOnly={name === "email"}
 									name={name === "email" ? undefined : name}
 									id={name === "email" ? undefined : name}
@@ -53,7 +54,7 @@ function UserProfile() {
 				</div>
 				<div className="mt-8 w-[40%] min-w-[16rem] mx-auto text-center">
 					{showAlert && (
-						<Alert severity="error" className="bg-sky-600">
+						<Alert severity="error" className="bg-sky-600 ">
 							{msg}
 						</Alert>
 					)}

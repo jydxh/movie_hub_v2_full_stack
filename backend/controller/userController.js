@@ -1,4 +1,5 @@
 const User = require("../model/User");
+const Token = require("../model/Token");
 
 const loadUserInfo = async (req, res) => {
 	const { userId } = req.user;
@@ -21,12 +22,22 @@ const updateUserInfo = async (req, res) => {
 	user.city = city;
 	user.country = country;
 	const updatedUser = await user.save();
+
+	const token = await Token.findOne({
+		user: userId,
+		userAgent: req.headers["user-agent"],
+	});
+	if (!token) {
+		return res.status(404).json({ msg: "cannot find the user token" });
+	}
+
 	res.status(200).json({
 		userInfo: {
 			name: updatedUser.name,
 			email: updatedUser.email,
 			city: updatedUser.city,
 			country: updatedUser.country,
+			exp: token.expiresIn,
 		},
 	});
 };

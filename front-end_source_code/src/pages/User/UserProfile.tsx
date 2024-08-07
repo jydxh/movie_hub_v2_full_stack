@@ -1,7 +1,8 @@
-import { Avatar, Divider, Input, Button, Alert } from "@mui/material";
+import { Divider, Input, Button, Alert } from "@mui/material";
 import { store } from "@/store";
 import { Form } from "react-router-dom";
 import { useState } from "react";
+import UserAvatar from "@/components/User/UserAvatar";
 const formInput = ["name", "email", "city", "country"];
 
 function UserProfile() {
@@ -13,12 +14,7 @@ function UserProfile() {
 			<div
 				className="flex flex-col justify-center items-center text-center
        py-8">
-				<Avatar
-					src="https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_kiri_16x9_1098_04_39d940d1.jpeg?region=0%2C0%2C1920%2C1080"
-					className="uppercase h-[4.8rem] w-[4.8rem]">
-					{username?.substring(0, 1) || "Unknow"}
-				</Avatar>
-				<p className="mt-4 uppercase">{username}</p>
+				<UserAvatar name={username} />
 			</div>
 			<Divider variant="middle" className="bg-slate-500 mb-4" />
 

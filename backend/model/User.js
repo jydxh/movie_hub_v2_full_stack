@@ -18,6 +18,9 @@ const UserSchema = new Schema(
 			required: [true, "password is required"],
 			type: String,
 		},
+		city: String,
+		country: String,
+		avatar: String,
 		verificationToken: String,
 		isVerified: {
 			type: Boolean,

@@ -24,10 +24,7 @@ export const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		login(
-			state,
-			action: PayloadAction<{ username: string; id: string; exp: string }>
-		) {
+		login(state, action: PayloadAction<{ username: string; exp: string }>) {
 			if (action.payload.username && action.payload.exp) {
 				state.username = action.payload.username;
 				state.exp = action.payload.exp;

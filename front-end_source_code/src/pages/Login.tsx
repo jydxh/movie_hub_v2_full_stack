@@ -28,8 +28,8 @@ export const action: ActionFunction = async ({
 	try {
 		const res: AxiosResponse<{ username: string; id: string; exp: string }> =
 			await axios.post("/api/v1/auth/login", formData);
-		const { username, id, exp } = res.data;
-		store.dispatch(login({ username, id, exp }));
+		const { username, exp } = res.data;
+		store.dispatch(login({ username, exp }));
 		return redirect(redirectTo);
 	} catch (err) {
 		const error = err as AxiosError<{ msg: string }>;

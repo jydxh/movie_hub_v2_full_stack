@@ -11,7 +11,8 @@ export const loader: LoaderFunction =
 	async (): Promise<UserInfoType | null> => {
 		try {
 			const res = await customFetch("/user/userInfo");
-			console.log(res.data);
+			//console.log(res.data);
+
 			return res.data.userInfo;
 		} catch (err) {
 			console.log(err);

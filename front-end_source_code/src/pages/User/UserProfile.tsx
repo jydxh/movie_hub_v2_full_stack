@@ -1,10 +1,18 @@
 import { Divider } from "@mui/material";
 import { store } from "@/store";
+import { login } from "@/feature/User/userSlice";
 import UserAvatar from "@/components/User/UserAvatar";
 import UserInfo from "@/components/User/UserInfo";
-import { ActionFunction, LoaderFunction, useLoaderData } from "react-router";
+import {
+	ActionFunction,
+	json,
+	LoaderFunction,
+	useLoaderData,
+} from "react-router";
 import { customFetch } from "@/api/customFetch";
 import { UserInfoType } from "@/utils/types";
+
+import { AxiosError } from "axios";
 const formInput = ["name", "email", "city", "country"];
 
 export const loader: LoaderFunction =
@@ -12,19 +20,35 @@ export const loader: LoaderFunction =
 		try {
 			const res = await customFetch("/user/userInfo");
 			//console.log(res.data);
-
+			/* the code below need to move to action not loader */
+			store.dispatch(
+				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
+			);
 			return res.data.userInfo;
 		} catch (err) {
 			console.log(err);
 			return null;
 		}
 	};
-export const action: ActionFunction = async ({ request }) => {
+
+export const action: ActionFunction = async ({
+	request,
+}): Promise<Response> => {
 	const formDataRaw = await request.formData();
 	const formData = Object.fromEntries(formDataRaw);
-	console.log(formData);
-	return null;
+	try {
+		const res = await customFetch.post("/user/userInfo", formData);
+		console.log(res.data);
+		store.dispatch(
+			login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
+		);
+		return json({ status: 200, msg: "Profile updated successfully!" });
+	} catch (err) {
+		const error = err as AxiosError<{ msg: string }>;
+		return json({ status: 400, msg: error.response?.data.msg || "" });
+	}
 };
+
 function UserProfile() {
 	const username = store.getState().user.username;
 	const data = useLoaderData() as UserInfoType;

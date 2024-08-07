@@ -700,3 +700,11 @@ export interface UserInfoType {
 	country: string;
 	avatar: string;
 }
+
+export interface UserInfoRes {
+	name: string;
+	email: string;
+	city: string;
+	country: string;
+	exp: string;
+}

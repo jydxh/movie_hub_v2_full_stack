@@ -692,3 +692,11 @@ export interface SearchKeywordResult {
 	id: number;
 	name: string;
 }
+
+export interface UserInfoType {
+	name: string;
+	email: string;
+	city: string;
+	country: string;
+	avatar: string;
+}

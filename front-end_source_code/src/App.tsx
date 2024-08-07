@@ -33,6 +33,7 @@ import {
 
 import { action as LoginAction } from "@/pages/Login";
 import { action as RegisterAction } from "@/pages/Register";
+import { action as UserInfoAction } from "@/pages/User/UserProfile";
 
 import multiSearchLoader from "@/utils/multiSearchLoader";
 import movieListsLoader from "./utils/movieListsLoader";
@@ -51,6 +52,7 @@ import { loader as PopularPeopleLoader } from "@/pages/People";
 import { loader as TvSeasonsLoader } from "@/pages/TV/TvSeasons";
 import { loader as SinglePersonLoader } from "@/pages/SinglePerson";
 //import { loader as VerifyEmailLoader } from "@/pages/VerifyEmail";
+import { loader as UserInfoLoader } from "@/pages/User/UserProfile";
 
 const router = createBrowserRouter([
 	//const router = createHashRouter([
@@ -60,7 +62,12 @@ const router = createBrowserRouter([
 		errorElement: <Error />,
 		children: [
 			{ index: true, element: <Home /> },
-			{ path: "user/profile", element: <UserProfile /> },
+			{
+				path: "user/profile",
+				element: <UserProfile />,
+				loader: UserInfoLoader,
+				action: UserInfoAction,
+			},
 			{
 				path: "movie",
 				element: <MovieLayout />,

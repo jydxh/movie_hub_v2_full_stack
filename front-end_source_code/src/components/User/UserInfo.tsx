@@ -15,6 +15,7 @@ function UserInfo({
 	const [showAlert, setShowAlert] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [msg, setMsg] = useState("");
+	const [inputsChanged, setInputChanged] = useState(false);
 	const [formValue, setFormValue] = useState<UserInfoType>(data);
 	const submit = useSubmit();
 	const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
@@ -71,6 +72,7 @@ function UserInfo({
 									value={formValue[name as keyof UserInfoType]}
 									onChange={evt => {
 										setFormValue({ ...formValue, [name]: evt.target.value });
+										setInputChanged(true);
 									}}
 									onClick={() => {
 										if (name === "email") {
@@ -107,7 +109,7 @@ function UserInfo({
 					)}
 				</div>
 				<div className="flex justify-center gap-4 items-center mt-8">
-					<Button variant="contained" type="submit">
+					<Button disabled={!inputsChanged} variant="contained" type="submit">
 						Update
 					</Button>
 					<Button

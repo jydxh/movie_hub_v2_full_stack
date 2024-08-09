@@ -32,8 +32,11 @@ import TvSeasons from "./TV/TvSeasons";
 import Error from "./Error";
 import VerifyEmail from "./VerifyEmail";
 import UserProfile from "./User/UserProfile";
-
+import UserAccount from "./User/UserAccount";
+import RestPwd from "./User/RestPwd";
 export {
+	RestPwd,
+	UserAccount,
 	UserProfile,
 	VerifyEmail,
 	Error,

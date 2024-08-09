@@ -110,21 +110,36 @@ function Login() {
 				{state === "idle" && (
 					<>
 						<div className="mt-4 flex justify-center items-center gap-x-4">
-							<Button color="primary" type="submit">
+							<Button
+								color="primary"
+								variant="contained"
+								type="submit"
+								size="small">
 								Login
 							</Button>
-							<Button color="secondary" type="reset">
+							<Button color="secondary" type="reset" size="small">
 								Reset
 							</Button>
 						</div>
+						<div className="flex justify-center">
+							<Button
+								className="my-4 text-center"
+								color="info"
+								size="small"
+								variant="contained"
+								type="button">
+								Forget Passsword
+							</Button>
+						</div>
+
 						<div className="flex  items-center justify-center gap-x-4">
 							<p>Not a member yet? </p>
-							<Button type="button">
+							<Button type="button" size="small">
 								<Link to="/register">Register</Link>
 							</Button>
 						</div>
 						<div className="flex justify-center mt-4">
-							<Button type="button" color="info">
+							<Button type="button" color="info" size="small">
 								<Link to="/">Back Home</Link>
 							</Button>
 						</div>

@@ -1,5 +1,3 @@
--- backend: file upload api, receive the avatar img from front-end, and then send file to cloundary, and res.send(src of the image);
--- set up the post req to upload img, and receive the url as response and update the avatat src at front-end
 
 --Account page
 

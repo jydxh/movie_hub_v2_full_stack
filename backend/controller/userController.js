@@ -46,7 +46,7 @@ const updateUserInfo = async (req, res) => {
 };
 
 const uploadUserAvatar = async (req, res) => {
-	console.log(req.file);
+	console.log(req.user);
 
 	/* multer way */
 	const { path, filename } = req.file;
@@ -64,6 +64,10 @@ const uploadUserAvatar = async (req, res) => {
 	console.log(result);
 	fs.unlinkSync(tempPath);
 
+	//link src to the user
+	const user = await User.findOne({ _id: req.user.userId });
+	user.avatar = result.secure_url;
+	await user.save();
 	return res
 		.status(201)
 		.json({ msg: "uploaded", image: { src: result.secure_url } });

@@ -696,9 +696,9 @@ export interface SearchKeywordResult {
 export interface UserInfoType {
 	name: string;
 	email: string;
-	city: string;
-	country: string;
-	avatar: string;
+	city: string | undefined;
+	country: string | undefined;
+	avatar: string | undefined;
 }
 
 export interface UserInfoRes {

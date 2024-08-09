@@ -5,14 +5,21 @@ import {
 	DialogTitle,
 	DialogContent,
 	DialogActions,
+	CircularProgress,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Form, useActionData } from "react-router-dom";
+import { Form, useActionData, useNavigation } from "react-router-dom";
 
-function UserAvatar({ name }: { name: string | null }) {
+function UserAvatar({
+	name,
+	avatar,
+}: {
+	name: string | null;
+	avatar: string | undefined;
+}) {
 	const [open, setOpen] = useState(false);
+	const { state } = useNavigation();
 	const actionData = useActionData() as { status: number; src: string };
-	console.log(actionData);
 
 	useEffect(() => {
 		if (actionData && actionData.status === 200) {
@@ -31,10 +38,7 @@ function UserAvatar({ name }: { name: string | null }) {
 		<>
 			<Button onClick={handleClickOpen}>
 				<Avatar
-					src={
-						(actionData && actionData.src) ||
-						"https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_kiri_16x9_1098_04_39d940d1.jpeg?region=0%2C0%2C1920%2C1080"
-					}
+					src={(actionData && actionData.src) || avatar}
 					className="uppercase h-[4.8rem] w-[4.8rem]">
 					{name?.substring(0, 1) || "Unknow"}
 				</Avatar>
@@ -56,7 +60,11 @@ function UserAvatar({ name }: { name: string | null }) {
 						</div>
 						<DialogActions className="mt-12">
 							<Button type="submit" size="small" variant="contained">
-								upload
+								{state === "idle" && "upload"}
+
+								{state === "submitting" && (
+									<CircularProgress size="1.4rem" color="inherit" />
+								)}
 							</Button>
 							<Button onClick={handleClose} size="small" variant="outlined">
 								Cancel

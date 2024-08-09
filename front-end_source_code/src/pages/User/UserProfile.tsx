@@ -83,7 +83,7 @@ function UserProfile() {
 			<div
 				className="flex flex-col justify-center items-center text-center
        py-8">
-				<UserAvatar name={username} />
+				<UserAvatar name={username} avatar={data.avatar} />
 			</div>
 			<Divider variant="middle" className="bg-slate-500 mb-4" />
 			<UserInfo formInput={formInput} data={data} />

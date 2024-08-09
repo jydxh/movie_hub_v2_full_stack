@@ -10,7 +10,7 @@ import {
 	useLoaderData,
 } from "react-router";
 import { customFetch } from "@/api/customFetch";
-import { UserInfoType } from "@/utils/types";
+import { UserInfoType, UserAvatarAction } from "@/utils/types";
 
 import { AxiosError } from "axios";
 const formInput = ["name", "email", "city", "country"];
@@ -20,7 +20,7 @@ export const loader: LoaderFunction =
 		try {
 			const res = await customFetch("/user/userInfo");
 			//console.log(res.data);
-			/* the code below need to move to action not loader */
+
 			store.dispatch(
 				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
 			);
@@ -52,13 +52,21 @@ export const action: ActionFunction = async ({
 	} else if (actionType === "uploadAvatar") {
 		try {
 			console.log(formData);
-			const res = await customFetch.post("/user/uploadAvatar", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data", //this is important!
-				},
-			});
+			const res = await customFetch.post<UserAvatarAction>(
+				"/user/uploadAvatar",
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data", //this is important!
+					},
+				}
+			);
 			console.log(res.data);
-			return json({ status: 200, src: res.data.image.src });
+			return json({
+				status: 200,
+				src: res.data.image.src,
+				msg: "Avatar updated successfully!",
+			});
 		} catch (err) {
 			console.log(err);
 			return json({});

@@ -6,10 +6,19 @@ import {
 	DialogContent,
 	DialogActions,
 } from "@mui/material";
-import { useState } from "react";
-import { Form } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Form, useActionData } from "react-router-dom";
+
 function UserAvatar({ name }: { name: string | null }) {
 	const [open, setOpen] = useState(false);
+	const actionData = useActionData() as { status: number; src: string };
+	console.log(actionData);
+
+	useEffect(() => {
+		if (actionData && actionData.status === 200) {
+			handleClose();
+		}
+	}, [actionData]);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -22,7 +31,10 @@ function UserAvatar({ name }: { name: string | null }) {
 		<>
 			<Button onClick={handleClickOpen}>
 				<Avatar
-					src="https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_kiri_16x9_1098_04_39d940d1.jpeg?region=0%2C0%2C1920%2C1080"
+					src={
+						(actionData && actionData.src) ||
+						"https://lumiere-a.akamaihd.net/v1/images/a_avatarpandorapedia_kiri_16x9_1098_04_39d940d1.jpeg?region=0%2C0%2C1920%2C1080"
+					}
 					className="uppercase h-[4.8rem] w-[4.8rem]">
 					{name?.substring(0, 1) || "Unknow"}
 				</Avatar>
@@ -40,7 +52,7 @@ function UserAvatar({ name }: { name: string | null }) {
 						<div className="flex justify-center gap-4 mbb-4">
 							<input type="hidden" name="actionType" value="uploadAvatar" />
 							<label htmlFor="avatar"></label>
-							<input type="file" name="user_avatar" />
+							<input required type="file" name="user_avatar" />
 						</div>
 						<DialogActions className="mt-12">
 							<Button type="submit" size="small" variant="contained">

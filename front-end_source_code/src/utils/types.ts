@@ -708,3 +708,10 @@ export interface UserInfoRes {
 	country: string;
 	exp: string;
 }
+
+export interface UserAvatarAction {
+	msg: string;
+	image: {
+		src: string;
+	};
+}

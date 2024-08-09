@@ -59,6 +59,7 @@ function UserInfo({
 				autoComplete="off"
 				onSubmit={handleSubmit}>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+					<input type="hidden" name="actionType" value="updateUserInfo" />
 					{formInput.map(name => {
 						return (
 							<div

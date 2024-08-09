@@ -36,8 +36,9 @@ function UserAvatar({ name }: { name: string | null }) {
 					{"Upload your avatar"}
 				</DialogTitle>
 				<DialogContent>
-					<Form>
+					<Form method="POST" encType="multipart/form-data">
 						<div className="flex justify-center gap-4 mbb-4">
+							<input type="hidden" name="actionType" value="uploadAvatar" />
 							<label htmlFor="avatar"></label>
 							<input type="file" name="user_avatar" />
 						</div>

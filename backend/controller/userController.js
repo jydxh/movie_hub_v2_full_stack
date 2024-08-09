@@ -1,5 +1,8 @@
 const User = require("../model/User");
 const Token = require("../model/Token");
+const { v2: cloudinary } = require("cloudinary");
+const nodePath = require("path");
+const fs = require("fs");
 
 const loadUserInfo = async (req, res) => {
 	const { userId } = req.user;
@@ -42,4 +45,28 @@ const updateUserInfo = async (req, res) => {
 	});
 };
 
-module.exports = { loadUserInfo, updateUserInfo };
+const uploadUserAvatar = async (req, res) => {
+	console.log(req.file);
+
+	/* multer way */
+	const { path, filename } = req.file;
+
+	const result = await cloudinary.uploader
+		.upload(path, {
+			public_id: filename,
+			unique_filename: false,
+			overwrite: true,
+			folder: "movie_hub_v2_user",
+		})
+		.catch(err => console.log(err));
+	const tempPath = nodePath.join(__dirname, "../", path);
+
+	console.log(result);
+	fs.unlinkSync(tempPath);
+
+	return res
+		.status(201)
+		.json({ msg: "uploaded", image: { src: result.secure_url } });
+};
+
+module.exports = { loadUserInfo, updateUserInfo, uploadUserAvatar };

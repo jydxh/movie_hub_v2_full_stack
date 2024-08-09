@@ -2,6 +2,14 @@ require("dotenv").config();
 require("express-async-errors");
 
 const express = require("express");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+	cloud_name: process.env.CLOUD_NAME,
+	api_key: process.env.CLOUD_API_KEY,
+	api_secret: process.env.CLOUD_API_SECRET,
+});
+//const fileupload = require("express-fileupload");
+
 const errorHanlderModdleware = require("./middleware/error-handler");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
@@ -14,6 +22,7 @@ app.set("trust proxy", 1);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.JWT_SECRET));
+//app.use(fileupload({ useTempFiles: true }));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);

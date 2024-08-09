@@ -36,17 +36,30 @@ export const action: ActionFunction = async ({
 }): Promise<Response> => {
 	const formDataRaw = await request.formData();
 	const formData = Object.fromEntries(formDataRaw);
-	try {
-		const res = await customFetch.post("/user/userInfo", formData);
-		console.log(res.data);
-		store.dispatch(
-			login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
-		);
-		return json({ status: 200, msg: "Profile updated successfully!" });
-	} catch (err) {
-		const error = err as AxiosError<{ msg: string }>;
-		return json({ status: 400, msg: error.response?.data.msg || "" });
+	const actionType = formDataRaw.get("actionType");
+	if (actionType === "updateUserInfo") {
+		try {
+			const res = await customFetch.post("/user/userInfo", formData);
+			console.log(res.data);
+			store.dispatch(
+				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
+			);
+			return json({ status: 200, msg: "Profile updated successfully!" });
+		} catch (err) {
+			const error = err as AxiosError<{ msg: string }>;
+			return json({ status: 400, msg: error.response?.data.msg || "" });
+		}
+	} else if (actionType === "uploadAvatar") {
+		try {
+			const res = await customFetch.post("/user/uploadAvatar");
+			console.log(res.data);
+			return json({});
+		} catch (err) {
+			console.log(err);
+			return json({});
+		}
 	}
+	return json({ status: 500, msg: "server error" });
 };
 
 function UserProfile() {

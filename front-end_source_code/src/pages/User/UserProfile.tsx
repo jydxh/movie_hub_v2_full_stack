@@ -51,9 +51,14 @@ export const action: ActionFunction = async ({
 		}
 	} else if (actionType === "uploadAvatar") {
 		try {
-			const res = await customFetch.post("/user/uploadAvatar");
+			console.log(formData);
+			const res = await customFetch.post("/user/uploadAvatar", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data", //this is important!
+				},
+			});
 			console.log(res.data);
-			return json({});
+			return json({ status: 200, src: res.data.image.src });
 		} catch (err) {
 			console.log(err);
 			return json({});

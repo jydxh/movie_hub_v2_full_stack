@@ -36,6 +36,6 @@ router
 	.post(userAuthentication, pre_updateUserInfo, updateUserInfo);
 router
 	.route("/uploadAvatar")
-	.post(upload.single("avatar"), userAuthentication, uploadUserAvatar);
+	.post(upload.single("user_avatar"), userAuthentication, uploadUserAvatar);
 
 module.exports = router;

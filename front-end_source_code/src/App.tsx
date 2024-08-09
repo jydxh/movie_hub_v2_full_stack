@@ -30,12 +30,13 @@ import {
 	VerifyEmail,
 	UserProfile,
 	UserAccount,
-	RestPwd,
+	ResetPwd,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";
 import { action as RegisterAction } from "@/pages/Register";
 import { action as UserInfoAction } from "@/pages/User/UserProfile";
+import { action as ResetPwdAction } from "@/pages/Auth/ResetPwd";
 
 import multiSearchLoader from "@/utils/multiSearchLoader";
 import movieListsLoader from "./utils/movieListsLoader";
@@ -73,10 +74,6 @@ const router = createBrowserRouter([
 			{
 				path: "user/userAccount",
 				element: <UserAccount />,
-			},
-			{
-				path: "user/reset_pwd",
-				element: <RestPwd />,
 			},
 			{
 				path: "movie",
@@ -198,6 +195,12 @@ const router = createBrowserRouter([
 	{
 		path: "/userAuth/verify-email",
 		element: <VerifyEmail />,
+		//	loader: VerifyEmailLoader,
+	},
+	{
+		path: "/userAuth/reset-pwd",
+		element: <ResetPwd />,
+		action: ResetPwdAction,
 		//	loader: VerifyEmailLoader,
 	},
 ]);

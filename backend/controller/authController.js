@@ -1,6 +1,7 @@
 const User = require("../model/User");
 const Token = require("../model/Token");
 const crypto = require("crypto");
+const validator = require("validator");
 
 const { promisify } = require("util");
 const cryptpRandomByte = promisify(crypto.randomBytes);
@@ -120,4 +121,54 @@ const logout = async (req, res) => {
 	res.status(200).json({ msg: "user logged out!" });
 };
 
-module.exports = { register, verifyEmail, login, logout };
+/* for reset pwd logic: set a passwordToken and pwdTokenExpired time and save to user DB,
+ and send email to the user email, include a url link (with the token and email address) */
+const resetPwd = async (req, res) => {
+	const { email } = req.body;
+	if (!email) {
+		res.status(400).json({ msg: "please provide a valid email" });
+	}
+	req.body.eamil = validator.normalizeEmail(email);
+	const passwordToken = (await cryptpRandomByte(32)).toString("hex");
+	const passwordTokenExpirationDate = new Date(
+		Date.now() + 5 * 1000 * 60
+	).getTime();
+
+	const user = await User.findOne({ email });
+
+	if (!user) {
+		res
+			.status(200)
+			.json({ msg: "please check your email, to reset the password" });
+	}
+	user.passwordToken = passwordToken;
+	user.passwordTokenExpirationDate = passwordTokenExpirationDate;
+	await user.save();
+	/*send email to reset pwd  */
+
+	const verifyEmail = `${origin}/userAuth/reset-pwd?token=${user.passwordToken}&email=${user.email}`;
+	const message = `<p>To reset your email, click on the following link : 
+  <a href="${verifyEmail}">Verify Email</a> </p>`;
+	const emailConfi = {
+		to: user.email,
+		subject: "Password Reset",
+		html: `<h2>Hello ${user.name}</h2> ${message}`,
+	};
+	//console.log(emailConfi);
+	//await sendEmail(emailConfi);
+	await sendDummyEamil(emailConfi);
+	res
+		.status(200)
+		.json({ msg: "please check your email, to reset the password" });
+};
+
+const VerifyPwdToken = async (req, res) => {};
+
+module.exports = {
+	register,
+	verifyEmail,
+	login,
+	logout,
+	resetPwd,
+	VerifyPwdToken,
+};

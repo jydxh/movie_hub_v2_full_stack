@@ -30,12 +30,13 @@ import TvCast from "./TV/TvCast";
 import TvReviews from "./TV/TvReviews";
 import TvSeasons from "./TV/TvSeasons";
 import Error from "./Error";
-import VerifyEmail from "./VerifyEmail";
+import VerifyEmail from "./Auth/VerifyEmail";
+import ResetPwd from "./Auth/ResetPwd";
 import UserProfile from "./User/UserProfile";
 import UserAccount from "./User/UserAccount";
-import RestPwd from "./User/RestPwd";
+
 export {
-	RestPwd,
+	ResetPwd,
 	UserAccount,
 	UserProfile,
 	VerifyEmail,

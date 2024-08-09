@@ -57,7 +57,7 @@ function Register() {
 	}, [data]);
 	return (
 		<div
-			className="grid place-content-center h-screen"
+			className="grid place-content-center h-screen text-white"
 			style={{
 				background:
 					"url('https://www.themoviedb.org/t/p/w1280/gPbM0MK8CP8A174rmUwGsADNYKD.jpg')",
@@ -66,7 +66,7 @@ function Register() {
 			}}>
 			<Form
 				method="POST"
-				className=" border rounded-xl p-8 md:w-[30rem] w-[24rem] bg-slate-700 ">
+				className=" border rounded-xl p-8 md:w-[30rem] w-[24rem] bg-slate-700/60 ">
 				<p className="text-center mx-auto  md:text-3xl font-semibold">
 					Registration
 				</p>
@@ -144,7 +144,7 @@ function Register() {
 				{state === "idle" && (
 					<>
 						<div className="mt-4 flex justify-center items-center gap-x-4">
-							<Button color="primary" type="submit">
+							<Button color="primary" type="submit" variant="contained">
 								Register
 							</Button>
 							<Button
@@ -157,12 +157,12 @@ function Register() {
 						</div>
 						<div className="flex  items-center justify-center gap-x-4">
 							<p>Alreat a member? </p>
-							<Button type="button">
+							<Button type="button" variant="contained">
 								<Link to="/login">Login</Link>
 							</Button>
 						</div>
 						<div className="flex justify-center mt-4">
-							<Button type="button" color="info">
+							<Button type="button" color="info" variant="contained">
 								<Link to="/">Back Home</Link>
 							</Button>
 						</div>

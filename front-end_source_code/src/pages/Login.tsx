@@ -68,7 +68,7 @@ function Login() {
 			}}>
 			<Form
 				method="POST"
-				className=" border rounded-xl p-8 md:w-[30rem] w-[24rem] bg-slate-700">
+				className=" text-white border rounded-xl p-8 md:w-[30rem] w-[24rem] bg-neutral-500/60 ">
 				<p className="text-center mx-auto md:text-2xl text-lg font-semibold">
 					Login
 				</p>

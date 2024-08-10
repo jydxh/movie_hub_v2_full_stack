@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Alert, CircularProgress, Input } from "@mui/material";
 import {
 	ActionFunction,
 	Form,
@@ -11,8 +11,9 @@ import { store } from "@/store";
 import { login } from "@/feature/User/userSlice";
 import { Link } from "react-router-dom";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Alert, CircularProgress } from "@mui/material";
+
 import { useEffect, useState } from "react";
+import { customFetch } from "@/api/customFetch";
 
 export const action: ActionFunction = async ({
 	request,
@@ -43,15 +44,45 @@ export const action: ActionFunction = async ({
 
 function Login() {
 	const { state } = useNavigation();
+	const [email, setEmail] = useState("");
+	const [msg, setMsg] = useState<string | undefined>("");
+	const [status, setStatus] = useState<number>();
 	const data = useActionData() as { msg: string; status: number };
 	const [showAlert, setShowAlert] = useState<boolean>(true);
 	const [interacted, setInteracted] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const handleResetPwd = async () => {
+		if (!email) {
+			setMsg("please enter email first!");
+		} else {
+			setIsLoading(true);
+			try {
+				const res = await customFetch.post<{ msg: string }>("/auth/reset-pwd", {
+					email,
+				});
+				console.log(res.data);
+				setMsg(res.data.msg);
+				setStatus(200);
+			} catch (err) {
+				console.log(err);
+				const error = err as AxiosError<{ msg: string }>;
+				setMsg(error.response?.data.msg);
+				setStatus(400);
+			}
+			setIsLoading(false);
+		}
+	};
 	const handleFocus = () => {
 		setInteracted(true);
 	};
 	const handleBlur = () => {
-		if (interacted) setShowAlert(false);
+		if (interacted) {
+			setShowAlert(false);
+			setMsg("");
+		}
 	};
+
 	useEffect(() => {
 		if (data) {
 			setShowAlert(true);
@@ -76,28 +107,34 @@ function Login() {
 					<label htmlFor="email" className="text-sm md:text-base w-[8rem] ">
 						Email
 					</label>
-					<input
+					<Input
+						required
+						onChange={evt => {
+							setEmail(evt.target.value);
+						}}
+						value={email}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 						placeholder="email address"
 						id="email"
 						type="email"
 						name="email"
-						className="bg-slate-600  rounded p-2 text-sm md:text-base"
+						className="p-1 text-sm md:text-base"
 					/>
 				</div>
 				<div className="mt-8 flex justify-center items-center ">
 					<label htmlFor="password" className="text-sm md:text-base w-[8rem]">
 						Password
 					</label>
-					<input
+					<Input
+						required
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 						placeholder="password"
 						id="password"
 						type="password"
 						name="password"
-						className="bg-slate-600 rounded p-2 text-sm md:text-base"
+						className=" p-1 text-sm md:text-base"
 					/>
 				</div>
 
@@ -107,39 +144,67 @@ function Login() {
 					</Alert>
 				)}
 
+				{msg && (
+					<Alert
+						severity={status === 200 ? "success" : "error"}
+						className="mt-4">
+						{msg}
+					</Alert>
+				)}
+
 				{state === "idle" && (
 					<>
 						<div className="mt-4 flex justify-center items-center gap-x-4">
 							<Button
+								className="capitalize"
 								color="primary"
 								variant="contained"
 								type="submit"
 								size="small">
 								Login
 							</Button>
-							<Button color="secondary" type="reset" size="small">
+							<Button
+								className="capitalize"
+								color="secondary"
+								type="reset"
+								size="small">
 								Reset
 							</Button>
 						</div>
 						<div className="flex justify-center">
 							<Button
-								className="my-4 text-center"
+								disabled={email === "" || isLoading}
+								onClick={handleResetPwd}
+								className="text-white my-4 text-center capitalize disabled:bg-slate-500/60"
 								color="info"
 								size="small"
 								variant="contained"
 								type="button">
-								Forget Passsword
+								{isLoading ? (
+									<span className="flex items-center gap-x-4">
+										<CircularProgress size={20} /> <p>Submitting...</p>
+									</span>
+								) : (
+									"Forget Passsword"
+								)}
 							</Button>
 						</div>
 
 						<div className="flex  items-center justify-center gap-x-4">
 							<p>Not a member yet? </p>
-							<Button type="button" size="small">
+							<Button
+								className=" text-center capitalize"
+								type="button"
+								size="small">
 								<Link to="/register">Register</Link>
 							</Button>
 						</div>
 						<div className="flex justify-center mt-4">
-							<Button type="button" color="info" size="small">
+							<Button
+								className="text-center capitalize"
+								type="button"
+								color="info"
+								size="small">
 								<Link to="/">Back Home</Link>
 							</Button>
 						</div>

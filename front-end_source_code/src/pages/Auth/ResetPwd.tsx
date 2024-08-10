@@ -1,5 +1,11 @@
-import { Button, Input, Alert } from "@mui/material";
-import { ActionFunction, Form, useSubmit, json } from "react-router-dom";
+import { Button, Input, Alert, LinearProgress } from "@mui/material";
+import {
+	ActionFunction,
+	Form,
+	useSubmit,
+	json,
+	useActionData,
+} from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
 import { customFetch } from "@/api/customFetch";
@@ -30,9 +36,11 @@ export const action: ActionFunction = async ({
 
 function ResetPwd() {
 	const submit = useSubmit();
+	const actionData = useActionData() as { status: number; msg: string };
 	const [pwd, setPwd] = useState("");
 	const [rePwd, setRePwd] = useState("");
 	const [msg, setMsg] = useState("");
+	const [showActionData, setShowActionData] = useState(false);
 
 	const formRef = useRef<HTMLFormElement>(null);
 
@@ -40,6 +48,7 @@ function ResetPwd() {
 		setPwd("");
 		setRePwd("");
 		setMsg("");
+		setShowActionData(false);
 	};
 	const regExp = new RegExp("^[a-zA-Z0-9]{6,20}$");
 	const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
@@ -61,6 +70,7 @@ function ResetPwd() {
 			// Check if the click was outside the form
 			if (formRef.current && !formRef.current.contains(event.target as Node)) {
 				setMsg(""); // Clear the message
+				setShowActionData(false);
 			}
 		};
 
@@ -72,6 +82,22 @@ function ResetPwd() {
 			document.removeEventListener("click", handleClickOutside);
 		};
 	}, []);
+
+	useEffect(() => {
+		if (actionData && actionData.msg) {
+			setShowActionData(true);
+		}
+		if (actionData && actionData.status === 200) {
+			setPwd("");
+			setRePwd("");
+			const timer = setTimeout(() => {
+				setShowActionData(false);
+			}, 2000);
+			return () => {
+				clearTimeout(timer);
+			};
+		}
+	}, [actionData]);
 
 	return (
 		<div className="grid place-content-center h-[100vh] bg-slate-400">
@@ -93,6 +119,7 @@ function ResetPwd() {
 						value={pwd}
 						onChange={evt => {
 							setMsg("");
+							setShowActionData(false);
 							setPwd(evt.target.value);
 						}}
 					/>
@@ -109,6 +136,7 @@ function ResetPwd() {
 						value={rePwd}
 						onChange={evt => {
 							setMsg("");
+							setShowActionData(false);
 							setRePwd(evt.target.value);
 						}}
 					/>
@@ -117,6 +145,13 @@ function ResetPwd() {
 				{msg && (
 					<Alert severity="error" key={msg}>
 						{msg}
+					</Alert>
+				)}
+
+				{showActionData && actionData && (
+					<Alert severity={actionData.status === 200 ? "success" : "error"}>
+						{actionData.msg}
+						{actionData.status === 200 && <LinearProgress color="success" />}
 					</Alert>
 				)}
 

@@ -126,9 +126,11 @@ const logout = async (req, res) => {
  and send email to the user email, include a url link (with the token and email address) */
 const resetPwd = async (req, res) => {
 	const { email } = req.body;
-	if (!email) {
-		res.status(400).json({ msg: "please provide a valid email" });
+	console.log(email);
+	if (!email || !validator.isEmail(email)) {
+		return res.status(400).json({ msg: "please provide a valid email" });
 	}
+
 	req.body.eamil = validator.normalizeEmail(email);
 	const passwordToken = (await cryptpRandomByte(32)).toString("hex");
 	const passwordTokenExpirationDate = new Date(
@@ -154,7 +156,7 @@ const resetPwd = async (req, res) => {
 		},
 		process.env.JWT_SECRET,
 		{
-			expiresIn: 5 * 60,
+			expiresIn: 15 * 60, // 15 mins expiration
 		}
 	);
 

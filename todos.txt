@@ -1,13 +1,14 @@
 
---Account page
-
-add a form for update pwd,
-a button to delete Account,
-
--- backend: a route to update pwd-> verify token, and suceess, find the user and send email with a URL to user change pwd,
-        -- delete account: send a 6 digit ramdon number from 0-9 to the user email, with 5min valid time, and if user enter the number match the number of DB, delete the user info in DB and 
-        -- at front -end as long as get 200 status, logout user
 
 -- trailer at home page, so user can what video,
 -- also at each movie -> media, add a trailer tag, and fetch all the trailer so user can see, but this trailer should be protected, meaning only when user login, can visit the trailer part at movieDetail page
 
+
+--END PIONT OF popolar movie list: upcoming, nowplaying, popular,toprated
+https://api.themoviedb.org/3/movie/{upcoming}
+
+    poster_path, id, original_title, 
+
+-- END POINT OF VIDEO: https://api.themoviedb.org/3/movie/{movie_id}/videos  and then filter the type==='Trailer'
+
+https://api.themoviedb.org/3/tv/{series_id}/videos

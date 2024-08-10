@@ -11,7 +11,7 @@ const fetchTvMulti = require("../api/fetchTvMulti");
 const fetchPopularPeople = require("../api/fetchPopularPeople");
 const fetchPeopleMulti = require("../api/fetchPeopleMulti");
 const fetchMultiSearch = require("../api/fetchMultiSearch");
-
+const filteredMovieListWithTrailer = require("../api/filteredMovieListWithTrailer");
 const router = express.Router();
 
 // trending all api
@@ -28,6 +28,13 @@ router.get("/movie/popular", async (req, res) => {
 	//console.log(page);
 	const results = await fetchHomePopular(page);
 	return res.status(200).json({ results });
+});
+
+// home->movie_trailer list
+router.get("/movie/trailer", async (req, res) => {
+	const results = await filteredMovieListWithTrailer();
+	console.log(results);
+	res.json({ results });
 });
 
 // home trending Tv

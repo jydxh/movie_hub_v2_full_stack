@@ -7,6 +7,7 @@ const customFetch = axios.create({
 	baseURL,
 	headers: {
 		accept: "application/json",
+		"Content-Type": "application/json",
 		Authorization: `Bearer ${process.env.VITE_TMDB_TOKEN}`,
 	},
 });

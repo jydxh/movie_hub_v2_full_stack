@@ -145,9 +145,11 @@ const resetPwd = async (req, res) => {
 		user.passwordTokenExpirationDate.getTime() > Date.now()
 	) {
 		// if the token still not expired, just return, let user know check email,intead of asking a new one,
-		return res
-			.status(400)
-			.json({ msg: "please check your email to reset password!" });
+		return res.status(400).json({
+			msg: `Please check your email to reset password! Please try again ${new Date(
+				user.passwordTokenExpirationDate.getTime() - Date.now()
+			).getMinutes()} minutes later`,
+		});
 	}
 	// if the token expired, just re-send a new email, and store the token and expiredDate in DB
 

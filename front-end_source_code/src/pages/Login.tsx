@@ -65,7 +65,6 @@ function Login() {
 				console.log(res.data);
 				setMsg(res.data.msg);
 				setStatus(200);
-				setCouter(60);
 			} catch (err) {
 				console.log(err);
 				const error = err as AxiosError<{ msg: string }>;
@@ -73,6 +72,7 @@ function Login() {
 				setStatus(400);
 			}
 			setIsLoading(false);
+			setCouter(60);
 		}
 	};
 	const handleFocus = () => {

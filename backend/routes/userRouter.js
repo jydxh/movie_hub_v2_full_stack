@@ -8,6 +8,7 @@ const {
 	loadUserInfo,
 	updateUserInfo,
 	uploadUserAvatar,
+	deleteUser,
 } = require("../controller/userController");
 const router = express.Router();
 const upload = multer({
@@ -37,5 +38,6 @@ router
 router
 	.route("/uploadAvatar")
 	.post(upload.single("user_avatar"), userAuthentication, uploadUserAvatar);
+router.delete("/", userAuthentication, deleteUser);
 
 module.exports = router;

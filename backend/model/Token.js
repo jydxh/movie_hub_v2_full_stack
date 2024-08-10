@@ -10,6 +10,7 @@ const TokenSchema = new Schema(
 		expiresIn: {
 			type: Date,
 			required: true,
+			index: { expires: 0 }, //Automatically delete after `expiresIn`
 		},
 	},
 	{ timestamps: true }

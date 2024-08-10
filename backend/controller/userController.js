@@ -73,4 +73,11 @@ const uploadUserAvatar = async (req, res) => {
 		.json({ msg: "uploaded", image: { src: result.secure_url } });
 };
 
-module.exports = { loadUserInfo, updateUserInfo, uploadUserAvatar };
+const deleteUser = async (req, res) => {
+	const { userId } = req.user;
+	await User.findOneAndDelete({ _id: userId });
+	await Token.deleteMany({ user: userId });
+	return res.status(200).json({ msg: "delete user success!" });
+};
+
+module.exports = { loadUserInfo, updateUserInfo, uploadUserAvatar, deleteUser };

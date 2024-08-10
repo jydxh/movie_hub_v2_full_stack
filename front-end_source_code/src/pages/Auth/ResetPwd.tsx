@@ -23,12 +23,15 @@ function ResetPwd() {
 		setRePwd("");
 		setMsg("");
 	};
+	const regExp = new RegExp("^[a-zA-Z0-9]{6,20}$");
 	const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault();
 		if (pwd !== rePwd) {
 			setMsg("Passwords are not same! please try again");
 			setPwd("");
 			setRePwd("");
+		} else if (!regExp.test(pwd)) {
+			setMsg("Invalid password, please try another password");
 		} else {
 			submit(evt.currentTarget);
 		}
@@ -51,6 +54,7 @@ function ResetPwd() {
 			document.removeEventListener("click", handleClickOutside);
 		};
 	}, []);
+
 	return (
 		<div className="grid place-content-center h-[100vh] bg-slate-400">
 			<Form
@@ -113,4 +117,5 @@ function ResetPwd() {
 		</div>
 	);
 }
+
 export default ResetPwd;

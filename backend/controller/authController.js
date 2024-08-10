@@ -2,8 +2,9 @@ const User = require("../model/User");
 const Token = require("../model/Token");
 const crypto = require("crypto");
 const validator = require("validator");
-
+const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const jwtSign = promisify(jwt.sign);
 const cryptpRandomByte = promisify(crypto.randomBytes);
 const { sendEmail, sendDummyEamil } = require("../utils/sendEmail");
 const { attatchCookiesToRes, decodeJwt } = require("../utils/jwt");
@@ -145,8 +146,16 @@ const resetPwd = async (req, res) => {
 	user.passwordTokenExpirationDate = passwordTokenExpirationDate;
 	await user.save();
 	/*send email to reset pwd  */
+	console.log(user.passwordToken);
+	const tokenJwt = await jwtSign(
+		{ token: user.passwordToken },
+		process.env.JWT_SECRET,
+		{
+			expiresIn: 5 * 60,
+		}
+	);
 
-	const verifyEmail = `${origin}/userAuth/reset-pwd?token=${user.passwordToken}&email=${user.email}`;
+	const verifyEmail = `${origin}/userAuth/reset-pwd?token=${tokenJwt}&email=${user.email}`;
 	const message = `<p>To reset your email, click on the following link : 
   <a href="${verifyEmail}">Verify Email</a> </p>`;
 	const emailConfi = {

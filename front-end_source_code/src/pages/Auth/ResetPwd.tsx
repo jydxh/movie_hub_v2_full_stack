@@ -5,6 +5,7 @@ import {
 	useSubmit,
 	json,
 	useActionData,
+	useNavigate,
 } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
@@ -36,6 +37,7 @@ export const action: ActionFunction = async ({
 
 function ResetPwd() {
 	const submit = useSubmit();
+	const navigate = useNavigate();
 	const actionData = useActionData() as { status: number; msg: string };
 	const [pwd, setPwd] = useState("");
 	const [rePwd, setRePwd] = useState("");
@@ -92,6 +94,7 @@ function ResetPwd() {
 			setRePwd("");
 			const timer = setTimeout(() => {
 				setShowActionData(false);
+				navigate("/login");
 			}, 2000);
 			return () => {
 				clearTimeout(timer);

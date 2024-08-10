@@ -126,16 +126,10 @@ const logout = async (req, res) => {
  and send email to the user email, include a url link (with the token and email address) */
 const resetPwd = async (req, res) => {
 	const { email } = req.body;
-	console.log(email);
+
 	if (!email || !validator.isEmail(email)) {
 		return res.status(400).json({ msg: "please provide a valid email" });
 	}
-
-	req.body.eamil = validator.normalizeEmail(email);
-	const passwordToken = (await cryptpRandomByte(32)).toString("hex");
-	const passwordTokenExpirationDate = new Date(
-		Date.now() + 5 * 1000 * 60
-	).getTime();
 
 	const user = await User.findOne({ email });
 
@@ -144,11 +138,30 @@ const resetPwd = async (req, res) => {
 			.status(200)
 			.json({ msg: "please check your email, to reset the password" });
 	}
+	//console.log(user.passwordTokenExpirationDate > Date.now());
+	//console.log(user.passwordTokenExpirationDate.getTime(), Date.now());
+	if (
+		user.passwordTokenExpirationDate &&
+		user.passwordTokenExpirationDate.getTime() > Date.now()
+	) {
+		// if the token still not expired, just return, let user know check email,intead of asking a new one,
+		return res
+			.status(400)
+			.json({ msg: "please check your email to reset password!" });
+	}
+	// if the token expired, just re-send a new email, and store the token and expiredDate in DB
+
+	req.body.eamil = validator.normalizeEmail(email);
+	const passwordToken = (await cryptpRandomByte(32)).toString("hex");
+	const passwordTokenExpirationDate = new Date(
+		Date.now() + 15 * 1000 * 60
+	).getTime();
+
 	user.passwordToken = passwordToken;
 	user.passwordTokenExpirationDate = passwordTokenExpirationDate;
 	await user.save();
 	/*send email to reset pwd  */
-	console.log(user.passwordToken);
+	//console.log(user.passwordToken);
 	const tokenJwt = await jwtSign(
 		{
 			token: user.passwordToken,
@@ -188,6 +201,8 @@ const VerifyPwdToken = async (req, res) => {
 		return res.status(400).json({ msg: "error, cannot use the same password" });
 	}
 	user.password = password;
+	user.passwordTokenExpirationDate = null;
+	user.passwordToken = null;
 	await user.save();
 	return res.status(200).json({ msg: "success update password" });
 };

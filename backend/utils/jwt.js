@@ -21,12 +21,14 @@ const attatchCookiesToRes = async ({
 	refreshToken,
 }) => {
 	const accessToken = await createJWT({ name, id, expiresIn: 60 * 15 });
+
 	const refreshTokenJwt = await createJWT({
 		name,
 		id,
 		refreshToken,
-		expiresIn:
-			(new Date(expiresIn).getTime() - Date.now() - 5 * 60 * 1000) / 1000,
+		expiresIn: Math.floor(
+			(new Date(expiresIn).getTime() - Date.now() - 5 * 60 * 1000) / 1000
+		),
 	});
 
 	res.cookie("accessToken", accessToken, {

@@ -15,7 +15,7 @@ const schema = joi.object({
 
 const pre_verifyPwdToken = async (req, res, next) => {
 	const { token: tokenJwt, email, password, re_password } = req.body;
-	console.log(req.body);
+
 	try {
 		const value = await schema.validateAsync({
 			tokenJwt,

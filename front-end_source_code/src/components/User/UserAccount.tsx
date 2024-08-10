@@ -2,6 +2,7 @@ import { Alert, Button, Input, LinearProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Form, useActionData } from "react-router-dom";
 
+import DeleteAccount from "./DeleteAccount";
 const formInput = [
 	{ name: "oldPassword", label: "Old Password" },
 	{ name: "newPassword", label: "New Password" },
@@ -42,11 +43,8 @@ function UserAccount() {
 					onClick={() => setShowForm(prev => !prev)}>
 					Update Password
 				</Button>
-				<Button
-					variant="contained"
-					className="capitalize text-orange-500 bg-sky-600 hover:bg-red-800 hover:text-black">
-					Delete Account
-				</Button>
+
+				<DeleteAccount className="capitalize text-orange-500 bg-sky-600 hover:bg-red-800 hover:text-black" />
 			</div>
 
 			<div

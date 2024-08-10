@@ -51,6 +51,7 @@ function Login() {
 	const [showAlert, setShowAlert] = useState<boolean>(true);
 	const [interacted, setInteracted] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [couter, setCouter] = useState<number>(0);
 
 	const handleResetPwd = async () => {
 		if (!email) {
@@ -64,6 +65,7 @@ function Login() {
 				console.log(res.data);
 				setMsg(res.data.msg);
 				setStatus(200);
+				setCouter(60);
 			} catch (err) {
 				console.log(err);
 				const error = err as AxiosError<{ msg: string }>;
@@ -88,6 +90,15 @@ function Login() {
 			setShowAlert(true);
 		}
 	}, [data]);
+
+	useEffect(() => {
+		if (couter > 0) {
+			const timer = setTimeout(() => {
+				setCouter(prev => prev - 1);
+			}, 1000);
+			return () => clearTimeout(timer);
+		}
+	}, [couter]);
 	return (
 		<div
 			className="grid place-content-center h-screen"
@@ -173,7 +184,7 @@ function Login() {
 						</div>
 						<div className="flex justify-center">
 							<Button
-								disabled={email === "" || isLoading}
+								disabled={email === "" || isLoading || couter > 0}
 								onClick={handleResetPwd}
 								className="text-white my-4 text-center capitalize disabled:bg-slate-500/60"
 								color="info"
@@ -184,6 +195,8 @@ function Login() {
 									<span className="flex items-center gap-x-4">
 										<CircularProgress size={20} /> <p>Submitting...</p>
 									</span>
+								) : couter > 0 ? (
+									couter + " seconds left"
 								) : (
 									"Forget Passsword"
 								)}

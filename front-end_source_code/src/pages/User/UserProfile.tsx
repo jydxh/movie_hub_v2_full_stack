@@ -3,6 +3,7 @@ import { store } from "@/store";
 import { login } from "@/feature/User/userSlice";
 import UserAvatar from "@/components/User/UserAvatar";
 import UserInfo from "@/components/User/UserInfo";
+import UserAccount from "@/components/User/UserAccount";
 import {
 	ActionFunction,
 	json,
@@ -19,14 +20,14 @@ export const loader: LoaderFunction =
 	async (): Promise<UserInfoType | null> => {
 		try {
 			const res = await customFetch("/user/userInfo");
-			//console.log(res.data);
+			console.log(res.data);
 
 			store.dispatch(
 				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
 			);
 			return res.data.userInfo;
 		} catch (err) {
-			console.log(err);
+			//	console.log(err);
 			return null;
 		}
 	};
@@ -51,7 +52,7 @@ export const action: ActionFunction = async ({
 		}
 	} else if (actionType === "uploadAvatar") {
 		try {
-			console.log(formData);
+			//console.log(formData);
 			const res = await customFetch.post<UserAvatarAction>(
 				"/user/uploadAvatar",
 				formData,
@@ -61,12 +62,46 @@ export const action: ActionFunction = async ({
 					},
 				}
 			);
-			console.log(res.data);
+			//console.log(res.data);
 			return json({
 				status: 200,
 				src: res.data.image.src,
 				msg: "Avatar updated successfully!",
 			});
+		} catch (err) {
+			//console.log(err);
+			return json({});
+		}
+	} else if (actionType === "updatePassword") {
+		delete formData.actionType;
+		const regExp = new RegExp("^[a-zA-Z0-9]{6,20}$");
+		console.log(formData);
+		const { newPassword, repeat_password } = formData;
+		let counter = 0;
+		for (const i in formData) {
+			if (!regExp.test(formData[i] as string)) {
+				counter++;
+			}
+		}
+		if (counter > 0) {
+			return json({
+				status: 400,
+				msg: "passwords do not match request, should be 6 to 20 char and alphanumeric characters ",
+			});
+		}
+		if (newPassword !== repeat_password) {
+			return json({
+				status: 400,
+				msg: "passwords are not same, please check and try again",
+			});
+		}
+		try {
+			const res = await customFetch.post<{ msg: string }>(
+				"/auth/resetPwd",
+				formData
+			);
+
+			console.log(res.data.msg);
 		} catch (err) {
 			console.log(err);
 			return json({});
@@ -79,7 +114,7 @@ function UserProfile() {
 	const username = store.getState().user.username;
 	const data = useLoaderData() as UserInfoType;
 	return (
-		<section className="bg-gradient-to-r from-indigo-700 from-10% via-sky-700 via-30% to-emerald-700 to-90%">
+		<section className="bg-gradient-to-r from-indigo-700 from-10% via-sky-700 via-30% to-emerald-700 to-90% pb-2">
 			<div
 				className="flex flex-col justify-center items-center text-center
        py-8">
@@ -87,6 +122,8 @@ function UserProfile() {
 			</div>
 			<Divider variant="middle" className="bg-slate-500 mb-4" />
 			<UserInfo formInput={formInput} data={data} />
+			<Divider variant="middle" className="bg-slate-500 mb-4" />
+			<UserAccount />
 		</section>
 	);
 }

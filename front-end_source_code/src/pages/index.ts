@@ -33,11 +33,9 @@ import Error from "./Error";
 import VerifyEmail from "./Auth/VerifyEmail";
 import ResetPwd from "./Auth/ResetPwd";
 import UserProfile from "./User/UserProfile";
-import UserAccount from "./User/UserAccount";
 
 export {
 	ResetPwd,
-	UserAccount,
 	UserProfile,
 	VerifyEmail,
 	Error,

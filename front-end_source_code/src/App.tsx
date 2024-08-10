@@ -29,7 +29,6 @@ import {
 	Error,
 	VerifyEmail,
 	UserProfile,
-	UserAccount,
 	ResetPwd,
 } from "./pages";
 
@@ -71,10 +70,7 @@ const router = createBrowserRouter([
 				loader: UserInfoLoader,
 				action: UserInfoAction,
 			},
-			{
-				path: "user/userAccount",
-				element: <UserAccount />,
-			},
+
 			{
 				path: "movie",
 				element: <MovieLayout />,

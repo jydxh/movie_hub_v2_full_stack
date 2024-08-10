@@ -38,9 +38,6 @@ function UserMenu({ children, handlelogout }: UserMenuProps) {
 				<MenuItem onClick={handleClose}>
 					<Link to="/user/profile">Profile</Link>
 				</MenuItem>
-				<MenuItem onClick={handleClose}>
-					<Link to="/user/userAccount">My account</Link>
-				</MenuItem>
 				<MenuItem onClick={handlelogout}>Logout</MenuItem>
 			</Menu>
 		</>

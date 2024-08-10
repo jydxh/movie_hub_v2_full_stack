@@ -209,6 +209,21 @@ const VerifyPwdToken = async (req, res) => {
 	return res.status(200).json({ msg: "success update password" });
 };
 
+const resetPwdAfterLogin = async (req, res) => {
+	const { oldPassword, newPassword } = req.body;
+	const { userId } = req.user;
+	const user = await User.findOne({ _id: userId });
+	if (!(await user.comparePwd(oldPassword))) {
+		/* if the old password is not match */
+		return res
+			.status(401)
+			.json({ msg: "Incorrect old-password, please try again" });
+	}
+	user.password = newPassword;
+	await user.save();
+	res.status(200).json({ msg: "Success changed password!" });
+};
+
 module.exports = {
 	register,
 	verifyEmail,
@@ -216,4 +231,5 @@ module.exports = {
 	logout,
 	resetPwd,
 	VerifyPwdToken,
+	resetPwdAfterLogin,
 };

@@ -85,13 +85,13 @@ export const action: ActionFunction = async ({
 		}
 		if (counter > 0) {
 			return json({
-				status: 400,
+				status: 401,
 				msg: "passwords do not match request, should be 6 to 20 char and alphanumeric characters ",
 			});
 		}
 		if (newPassword !== repeat_password) {
 			return json({
-				status: 400,
+				status: 401,
 				msg: "passwords are not same, please check and try again",
 			});
 		}
@@ -100,11 +100,12 @@ export const action: ActionFunction = async ({
 				"/auth/resetPwd",
 				formData
 			);
-
 			console.log(res.data.msg);
+			return json({ status: 201, msg: res.data.msg });
 		} catch (err) {
+			const error = err as AxiosError<{ msg: string | null }>;
 			console.log(err);
-			return json({});
+			return json({ status: 401, msg: error.response?.data.msg });
 		}
 	}
 	return json({ status: 500, msg: "server error" });

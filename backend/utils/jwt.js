@@ -25,7 +25,8 @@ const attatchCookiesToRes = async ({
 		name,
 		id,
 		refreshToken,
-		expiresIn: new Date(expiresIn).getTime() - Date.now() - 5 * 60 * 1000,
+		expiresIn:
+			(new Date(expiresIn).getTime() - Date.now() - 5 * 60 * 1000) / 1000,
 	});
 
 	res.cookie("accessToken", accessToken, {

@@ -148,16 +148,19 @@ const resetPwd = async (req, res) => {
 	/*send email to reset pwd  */
 	console.log(user.passwordToken);
 	const tokenJwt = await jwtSign(
-		{ token: user.passwordToken },
+		{
+			token: user.passwordToken,
+			userId: user._id,
+		},
 		process.env.JWT_SECRET,
 		{
 			expiresIn: 5 * 60,
 		}
 	);
 
-	const verifyEmail = `${origin}/userAuth/reset-pwd?token=${tokenJwt}&email=${user.email}`;
-	const message = `<p>To reset your email, click on the following link : 
-  <a href="${verifyEmail}">Verify Email</a> </p>`;
+	const urlLink = `${origin}/userAuth/reset-pwd?token=${tokenJwt}&email=${user.email}`;
+	const message = `<p>To reset your password, click on the following link : 
+  <a href="${urlLink}">Rest Password</a> </p>`;
 	const emailConfi = {
 		to: user.email,
 		subject: "Password Reset",
@@ -171,7 +174,21 @@ const resetPwd = async (req, res) => {
 		.json({ msg: "please check your email, to reset the password" });
 };
 
-const VerifyPwdToken = async (req, res) => {};
+const VerifyPwdToken = async (req, res) => {
+	const { tokenJwt, email, password } = req.body;
+	const { token, userId } = await decodeJwt(tokenJwt);
+	const user = await User.findOne({ passwordToken: token, _id: userId, email });
+	if (!user) {
+		return res.status(404).json({ msg: "error, invalid token" });
+	}
+	/* attention since the bcrypt.compare is an aysnc function, we need to add await ahead to wait for the promise resolve, other wise this block will always trigger */
+	if (await user.comparePwd(password)) {
+		return res.status(400).json({ msg: "error, cannot use the same password" });
+	}
+	user.password = password;
+	await user.save();
+	return res.status(200).json({ msg: "success update password" });
+};
 
 module.exports = {
 	register,

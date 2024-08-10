@@ -28,7 +28,6 @@ const UserSchema = new Schema(
 		},
 		verified: Date,
 		passwordToken: String,
-		passwordTokenExpirationDate: Date,
 	},
 	{ timeStamp: true }
 );

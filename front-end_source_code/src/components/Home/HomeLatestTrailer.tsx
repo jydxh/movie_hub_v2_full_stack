@@ -38,7 +38,7 @@ function HomeLatestTrailer() {
 									key={item.id}
 									index={index}
 									data={item}
-									forHome={true}
+									mode="home"
 									setImgCount={setImgCount}
 								/>
 							))}

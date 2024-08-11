@@ -52,7 +52,7 @@ function SingleMovie() {
 				<Divider className="mt-2" />
 				<MediaReview data={data.reviews} />
 				<Divider className="mt-2" />
-				<MediaPoster />
+				<MediaPoster mode="movie" trailers={data.trailers} />
 				<Divider className="mt-2" />
 				<MediaRecommendation data={data.recommendations} />
 			</>

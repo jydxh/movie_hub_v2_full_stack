@@ -42,7 +42,7 @@ function Trailer() {
 		navigate(pathname + "?page=" + page);
 	};
 	const { results } = useLoaderData() as HomeLatestTrailerRes;
-	const { results: trailers, page, total_pages, total_results } = results;
+	const { results: trailers, page, total_results } = results;
 	return (
 		<>
 			<section className=" py-8 px-4 bg-gradient-to-r from-sky-800/80 to-emerald-900/80">
@@ -61,7 +61,7 @@ function Trailer() {
 											data={item}
 											key={item.id}
 											index={index}
-											forHome={false}
+											mode="trailerPage"
 											setImgCount={() => null}
 										/>
 									);

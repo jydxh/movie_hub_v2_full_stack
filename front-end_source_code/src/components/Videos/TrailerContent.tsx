@@ -8,12 +8,12 @@ import { Dialog } from "@mui/material";
 
 function TrailerContent({
 	data,
-	forHome,
+	mode,
 	index,
 	setImgCount,
 }: {
 	data: HomeLatestTrailer;
-	forHome: boolean;
+	mode: "home" | "trailerPage" | "movieDetailTrailer";
 	index: number;
 	setImgCount: (index: number) => void;
 }) {
@@ -31,9 +31,11 @@ function TrailerContent({
 		<>
 			<div
 				onMouseEnter={() => {
-					forHome ? setImgCount(index) : null;
+					mode === "home" ? setImgCount(index) : null;
 				}}
-				className={`mt-4  ${forHome ? "flex-shrink-0  text-white " : null}`}>
+				className={`mt-4  ${
+					mode !== "trailerPage" ? "flex-shrink-0  text-white " : null
+				}`}>
 				<div
 					onClick={handleClickOpen}
 					className="relative hover:scale-105 duration-200 ease-in-out cursor-pointer ">

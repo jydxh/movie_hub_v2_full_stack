@@ -361,6 +361,10 @@ export interface MovieDetailResponse {
 	recommendations: MovieRecommendations;
 }
 
+export interface MovieDetailWithTrailerResponse extends MovieDetailResponse {
+	trailers: string[];
+}
+
 export interface Reviews {
 	page: number;
 	results: ReviewsResult[];

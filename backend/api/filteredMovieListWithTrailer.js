@@ -8,7 +8,8 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 			`/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`
 		);
 		//console.log(res.data.results);
-		const results = res.data.results;
+		const { page: currentPage, total_pages, total_results, results } = res.data;
+
 		const movieList = results.map((item, index) => {
 			if (trim && index > 9) return;
 			const { poster_path, id, original_title } = item;
@@ -32,8 +33,13 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 				}
 			})
 		);
-		//console.log(movieList);
-		return movieList;
+		console.log(movieList);
+		return {
+			results: movieList,
+			page: currentPage,
+			total_pages,
+			total_results,
+		};
 	} catch (error) {
 		console.log(error);
 	}

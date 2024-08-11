@@ -4,6 +4,6 @@ import { HomeLatestTrailerRes } from "@/utils/types";
 async function homeLatestTrailer() {
 	const res = await customFetch<HomeLatestTrailerRes>("/movie/trailer");
 	//console.log(res.data);
-	return res.data.results;
+	return res.data.results.results;
 }
 export default homeLatestTrailer;

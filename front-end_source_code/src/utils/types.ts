@@ -723,5 +723,10 @@ export interface HomeLatestTrailer {
 }
 
 export interface HomeLatestTrailerRes {
-	results: HomeLatestTrailer[];
+	results: {
+		results: HomeLatestTrailer[];
+		page: number;
+		total_pages: number;
+		total_results: number;
+	};
 }

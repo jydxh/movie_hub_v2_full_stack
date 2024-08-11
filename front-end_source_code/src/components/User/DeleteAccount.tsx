@@ -38,7 +38,6 @@ function DeleteAccount({ className }: { className: string }) {
 		} catch (err) {
 			const error = err as AxiosError<{ msg: string }>;
 			console.log(error.response?.data);
-			store.dispatch(logout());
 		}
 		setDeleting(false);
 	};

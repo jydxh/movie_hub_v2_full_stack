@@ -212,6 +212,9 @@ const VerifyPwdToken = async (req, res) => {
 const resetPwdAfterLogin = async (req, res) => {
 	const { oldPassword, newPassword } = req.body;
 	const { userId } = req.user;
+	if (userId === "66b8edd323fc8e3d39d21ce1") {
+		return res.status(401).json({ msg: "cannot change demo-user password" });
+	}
 	const user = await User.findOne({ _id: userId });
 	if (!(await user.comparePwd(oldPassword))) {
 		/* if the old password is not match */

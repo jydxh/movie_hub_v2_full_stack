@@ -21,7 +21,10 @@ const updateUserInfo = async (req, res) => {
 	if (!user) {
 		return res.status(404).json({ msg: "cannot find the user" });
 	}
-	user.name = name;
+	if (userId === "66b8edd323fc8e3d39d21ce1" && name !== user.name) {
+		return res.status(401).json({ msg: "cannot modify demo-user name" });
+	}
+
 	user.city = city;
 	user.country = country;
 	const updatedUser = await user.save();
@@ -75,6 +78,9 @@ const uploadUserAvatar = async (req, res) => {
 
 const deleteUser = async (req, res) => {
 	const { userId } = req.user;
+	if (userId === "66b8edd323fc8e3d39d21ce1") {
+		return res.status(401).json({ msg: "cannot delete demo user" });
+	}
 	await User.findOneAndDelete({ _id: userId });
 	await Token.deleteMany({ user: userId });
 	return res.status(200).json({ msg: "delete user success!" });

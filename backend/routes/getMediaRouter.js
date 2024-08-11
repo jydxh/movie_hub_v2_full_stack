@@ -63,10 +63,13 @@ router.get("/trending/tv/:opt", async (req, res) => {
 
 // movie page -> fetch movielist
 router.get("/discover/movie", async (req, res) => {
-	//console.log(req.query);
+	console.log(req.query);
 	const searchParamsString = new URLSearchParams(req.query).toString();
+	console.log(searchParamsString);
 	const results = await fetchMovieList(searchParamsString);
-	return res.status(200).json({ results });
+	console.log(results);
+	//return res.status(200).json({ results });
+	return res.status(200).json(results);
 });
 
 // movie or tv page -> fetch Genere

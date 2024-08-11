@@ -42,7 +42,7 @@ async function fetchMovieList(
 		}`;
 	}
 	const res = await customFetch<MovieResultResponse>(url);
-	//console.log(res.data);
+	console.log(res.data);
 	return res.data;
 }
 export default fetchMovieList;

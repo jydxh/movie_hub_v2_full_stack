@@ -84,6 +84,7 @@ function useMediaList(title: string, mode: "tv" | "movie") {
 	const ObserverCallBack = useCallback(
 		/*  This callback is triggered when an intersection occurs between the observed element and the root element, as defined by the IntersectionObserver's options.*/
 		(entries: IntersectionObserverEntry[]) => {
+			console.log(pageRef.current);
 			const target = entries[0];
 			if (target.isIntersecting && !isLoading && !isLastPage) {
 				if (pageRef.current <= total_pages) {
@@ -99,6 +100,7 @@ function useMediaList(title: string, mode: "tv" | "movie") {
 
 	useEffect(() => {
 		const currentDivRef = divRef.current;
+		console.log(currentDivRef);
 		if (isInfiniteScrollEnabled) {
 			const observer = new IntersectionObserver(ObserverCallBack, options); // using the IntersectionObserver API to kind of like add event listener when the window moves to the some point of the viewport, the callbackfuntion will be triggered
 			if (currentDivRef) {

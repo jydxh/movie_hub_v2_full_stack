@@ -18,10 +18,25 @@ const app = express();
 const getMediaRouter = require("./routes/getMediaRouter");
 const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
+
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const rateLimit = require("express-rate-limit");
+
 //app.use(cors());
 app.set("trust proxy", 1);
+app.use(
+	rateLimit({
+		windowMs: 15 * 60 * 1000, //15min
+		limit: 100,
+		message: "you have reach the visit limit, please try again later",
+	})
+);
+app.use(xss());
+app.use(helmet());
+
 app.use(express.json());
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(cookieParser(process.env.JWT_SECRET));
 //app.use(fileupload({ useTempFiles: true }));
 

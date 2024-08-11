@@ -2,7 +2,7 @@ const customFetch = require("./customFetch");
 
 async function fetchMovieList(serachParams) {
 	const res = await customFetch(`/discover/movie?${serachParams}`);
-	console.log(res.data);
+	//console.log(res.data);
 	return res.data;
 }
 

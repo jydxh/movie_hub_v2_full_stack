@@ -36,8 +36,8 @@ const register = async (req, res) => {
 		html: `<h2>Hello ${user.name}</h2> ${message}`,
 	};
 	//console.log(emailConfi);
-	//await sendEmail(emailConfi);
-	await sendDummyEamil(emailConfi);
+	await sendEmail(emailConfi);
+	//await sendDummyEamil(emailConfi);
 	res.status(201).json({ name: user.name, id: user._id, email: user.email });
 };
 
@@ -184,8 +184,8 @@ const resetPwd = async (req, res) => {
 		html: `<h2>Hello ${user.name}</h2> ${message}`,
 	};
 	//console.log(emailConfi);
-	//await sendEmail(emailConfi);
-	await sendDummyEamil(emailConfi);
+	await sendEmail(emailConfi);
+	//await sendDummyEamil(emailConfi);
 	res
 		.status(200)
 		.json({ msg: "please check your email, to reset the password" });

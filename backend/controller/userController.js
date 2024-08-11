@@ -24,7 +24,7 @@ const updateUserInfo = async (req, res) => {
 	if (userId === "66b8edd323fc8e3d39d21ce1" && name !== user.name) {
 		return res.status(401).json({ msg: "cannot modify demo-user name" });
 	}
-
+	user.name = name;
 	user.city = city;
 	user.country = country;
 	const updatedUser = await user.save();

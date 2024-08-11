@@ -1,4 +1,5 @@
 const express = require("express");
+const userAuthentication = require("../middleware/authMiddleware/userAuthentication");
 const fetchTrendingAll = require("../api/fetchTrendingAll");
 const fetchHomePopular = require("../api/fetchHomePopular");
 const fetchHomeTV = require("../api/fetchHomeTv");
@@ -33,8 +34,15 @@ router.get("/movie/popular", async (req, res) => {
 // home->movie_trailer list
 router.get("/movie/trailer", async (req, res) => {
 	const results = await filteredMovieListWithTrailer({ trim: true, page: "1" });
-	console.log(results);
-	res.json({ results });
+
+	res.status(200).json({ results });
+});
+
+//movie trailerList, this route is protected, need to login
+router.get("/movie/trailerList", userAuthentication, async (req, res) => {
+	const page = req.query.page || "1";
+	const results = await filteredMovieListWithTrailer({ trim: false, page });
+	res.status(200).json({ results });
 });
 
 // home trending Tv

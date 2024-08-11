@@ -5,9 +5,9 @@ const customFetch = require("./customFetch");
 const filteredMovieListWithTrailer = async ({ trim, page }) => {
 	try {
 		const res = await customFetch.get(
-			`/discover/movie?page=${page}&sort_by=popularity.desc`
+			`/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`
 		);
-		console.log(res.data.results);
+		//console.log(res.data.results);
 		const results = res.data.results;
 		const movieList = results.map((item, index) => {
 			if (trim && index > 9) return;
@@ -32,7 +32,7 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 				}
 			})
 		);
-		console.log(movieList);
+		//console.log(movieList);
 		return movieList;
 	} catch (error) {
 		console.log(error);

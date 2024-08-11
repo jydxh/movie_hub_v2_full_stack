@@ -6,6 +6,7 @@ import {
 	redirect,
 	useActionData,
 	useNavigation,
+	useSubmit,
 } from "react-router-dom";
 import { store } from "@/store";
 import { login } from "@/feature/User/userSlice";
@@ -43,8 +44,10 @@ export const action: ActionFunction = async ({
 };
 
 function Login() {
+	const submit = useSubmit();
 	const { state } = useNavigation();
 	const [email, setEmail] = useState("");
+	const [pwd, setPwd] = useState("");
 	const [msg, setMsg] = useState<string | undefined>("");
 	const [status, setStatus] = useState<number>();
 	const data = useActionData() as { msg: string; status: number };
@@ -83,6 +86,15 @@ function Login() {
 			setShowAlert(false);
 			setMsg("");
 		}
+	};
+
+	const handleDemoUser = () => {
+		setEmail("demoUser@gmail.com");
+		setPwd("qwer123");
+		const formData = new FormData();
+		formData.append("email", "demoUser@gmail.com");
+		formData.append("password", "qwer123");
+		submit(formData, { method: "POST", action: "/login" });
 	};
 
 	useEffect(() => {
@@ -139,6 +151,7 @@ function Login() {
 					</label>
 					<Input
 						required
+						value={pwd}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 						placeholder="password"
@@ -180,6 +193,15 @@ function Login() {
 								type="reset"
 								size="small">
 								Reset
+							</Button>
+							<Button
+								className="capitalize"
+								color="primary"
+								variant="contained"
+								type="submit"
+								onClick={handleDemoUser}
+								size="small">
+								Demp User
 							</Button>
 						</div>
 						<div className="flex justify-center">

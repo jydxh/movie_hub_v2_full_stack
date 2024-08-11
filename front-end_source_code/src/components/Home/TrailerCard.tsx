@@ -47,7 +47,7 @@ function TrailerCard({
 				<p className="text-center my-4 ">{original_title}</p>
 			</div>
 
-			<Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
+			<Dialog open={open} onClose={handleClose} maxWidth={false} fullWidth>
 				<div className="relative">
 					<div className="flex justify-between items-center p-4 text-sm md:text-base">
 						<p className="text-sm md:text-base">Watch Trailer</p>

@@ -13,6 +13,7 @@ const fetchPopularPeople = require("../api/fetchPopularPeople");
 const fetchPeopleMulti = require("../api/fetchPeopleMulti");
 const fetchMultiSearch = require("../api/fetchMultiSearch");
 const filteredMovieListWithTrailer = require("../api/filteredMovieListWithTrailer");
+const fetchSingleMovieTrailer = require("../api/fetchSingleMovieTrailer");
 const router = express.Router();
 
 // trending all api
@@ -36,6 +37,13 @@ router.get("/movie/trailer", async (req, res) => {
 	const results = await filteredMovieListWithTrailer({ trim: true, page: "1" });
 
 	res.status(200).json({ results });
+});
+
+// movie_detail -> the movies's trailers
+router.get("/movie/trailer/:id", async (req, res) => {
+	const { id } = req.params;
+	const results = await fetchSingleMovieTrailer({ id });
+	res.send({ results });
 });
 
 //movie trailerList, this route is protected, need to login

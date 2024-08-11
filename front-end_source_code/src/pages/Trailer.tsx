@@ -45,7 +45,7 @@ function Trailer() {
 	const { results: trailers, page, total_pages, total_results } = results;
 	return (
 		<>
-			<section className=" py-8 px-4 bg-gradient-to-r from-purple-600/80 to-pink-700/80">
+			<section className=" py-8 px-4 bg-gradient-to-r from-sky-800/80 to-emerald-900/80">
 				<div className="grid grid-cols-1 md:flex md:gap-x-4">
 					<div className="md:mt-0 mt-8 w-full">
 						<h2 className="font-semibold tracking-wide text-2xl mb-4 capitalize">

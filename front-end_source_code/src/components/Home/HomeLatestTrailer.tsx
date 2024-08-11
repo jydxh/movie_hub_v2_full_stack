@@ -25,7 +25,7 @@ function HomeLatestTrailer() {
 						style={{
 							backgroundImage: `url("${baseImgUrl}/w1920_and_h427_multi_faces/${data[imgCount].poster_path}")`,
 						}}
-						className="  object-contain absolute top-0 left-0 w-full h-full"></div>
+						className="  object-contain absolute top-0 left-0 w-full h-full duration-300 ease-in-out delay-100"></div>
 					<div
 						className={`${bgColor} opacity-80 w-full h-full  top-0 left-0 absolute`}></div>
 					<div className="relative h-[16rem]">

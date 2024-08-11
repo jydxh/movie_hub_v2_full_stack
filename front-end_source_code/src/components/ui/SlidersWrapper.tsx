@@ -44,7 +44,7 @@ function SlidersWrapper({ title, options, fetchFunction }: SliderProps) {
 				) : error ? (
 					"load page failed"
 				) : (
-					<FetchingSkeleton />
+					<FetchingSkeleton amount={19} />
 				)}
 			</div>
 		</section>

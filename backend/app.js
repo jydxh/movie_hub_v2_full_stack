@@ -1,7 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
 
-const cors = require("cors");
+//const cors = require("cors");
 const express = require("express");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -18,7 +18,7 @@ const app = express();
 const getMediaRouter = require("./routes/getMediaRouter");
 const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
-app.use(cors());
+//app.use(cors());
 app.set("trust proxy", 1);
 app.use(express.json());
 app.use(morgan("dev"));

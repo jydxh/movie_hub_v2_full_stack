@@ -1,7 +1,7 @@
 import Skeleton from "@mui/material/Skeleton";
 
-function FetchingSkeleton() {
-	return Array.from({ length: 19 }, (_, index) => index).map(index => {
+function FetchingSkeleton({ amount }: { amount: number }) {
+	return Array.from({ length: amount }, (_, index) => index).map(index => {
 		return (
 			<div key={index} className="w-[10rem] h-[24rem] mt-4 flex-shrink-0">
 				<Skeleton variant="circular" width={40} height={40} />

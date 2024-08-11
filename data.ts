@@ -909,3 +909,68 @@ const tvVideos = {
 		},
 	],
 };
+
+const avadad = {
+	results: [
+		{
+			poster_path: "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+			id: 533535,
+			original_title: "Deadpool & Wolverine",
+			trailer: ["Idh8n5XuYIA", "73_1biulkYk"],
+		},
+		{
+			poster_path: "/wWba3TaojhK7NdycRhoQpsG0FaH.jpg",
+			id: 519182,
+			original_title: "Despicable Me 4",
+			trailer: ["LtNYaH61dXY", "qQlr9-rF32A"],
+		},
+		{
+			poster_path: "/oGythE98MYleE6mZlGs5oBGkux1.jpg",
+			id: 573435,
+			original_title: "Bad Boys: Ride or Die",
+			trailer: ["uWLNl_KQCAU", "ZTQyMmz-cQE", "g1sdO-u79Ks", "hRFY_Fesa9Q"],
+		},
+		{
+			poster_path: "/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg",
+			id: 1022789,
+			original_title: "Inside Out 2",
+			trailer: ["u69y5Ie519M", "L4DrolmDxmw", "LEjhY15eCx0", "VWavstJydZU"],
+		},
+		{
+			poster_path: "/yrpPYKijwdMHyTGIOd1iK1h0Xno.jpg",
+			id: 762441,
+			original_title: "A Quiet Place: Day One",
+			trailer: ["E-WIb4ATfT8", "gjx-iHGXk9Q", "YPY7J-flzE8"],
+		},
+		{
+			poster_path: "/30YnfZdMNIV7noWLdvmcJS0cbnQ.jpg",
+			id: 831815,
+			original_title: "Saving Bikini Bottom: The Sandy Cheeks Movie",
+			trailer: ["Ud6-SGnzH3k"],
+		},
+		{
+			poster_path: "/5wAlO5zZ3IyzLBAf7cp5WejalmG.jpg",
+			id: 1129598,
+			original_title: "Prey",
+			trailer: ["7KduJUygxKE"],
+		},
+		{
+			poster_path: "/e5ZqqPlhKstzB4geibpZh38w7Pq.jpg",
+			id: 1066262,
+			original_title: "The Convert",
+			trailer: ["6NQkoW7hwi8", "PI4Z7t3AZ5E"],
+		},
+		{
+			poster_path: "/6yK9hmS641NMwRkR1wWAALWI34t.jpg",
+			id: 1311550,
+			original_title: "House of Ga'a",
+			trailer: ["I6uNj0Zlak8"],
+		},
+		{
+			poster_path: "/xYduFGuch9OwbCOEUiamml18ZoB.jpg",
+			id: 748783,
+			original_title: "The Garfield Movie",
+			trailer: ["yk2Ej59DnrE", "S3XjsSvwSuU", "j0Qk01BhAQM", "IeFWNtMo1Fs"],
+		},
+	],
+};

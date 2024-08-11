@@ -1,5 +1,5 @@
 export const baseImgUrl = "https://image.tmdb.org/t/p";
-
+export const imgUrl = "https://image.tmdb.org/t/p/original/";
 // Common Media interface
 export interface Media {
 	backdrop_path: string;
@@ -714,4 +714,14 @@ export interface UserAvatarAction {
 	image: {
 		src: string;
 	};
+}
+export interface HomeLatestTrailer {
+	poster_path: string;
+	id: number;
+	original_title: string;
+	trailer: string[];
+}
+
+export interface HomeLatestTrailerRes {
+	results: HomeLatestTrailer[];
 }

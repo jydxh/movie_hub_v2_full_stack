@@ -4,6 +4,7 @@ import HeroPride from "@/components/Home/HeroPride";
 import HomeTrending from "@/components/Home/HomeTrending";
 import HomePopular from "@/components/Home/HomePopular";
 import HomeFreeWatch from "@/components/Home/HomeFreeWatch";
+import HomeLatestTrailer from "@/components/Home/HomeLatestTrailer";
 
 function Home() {
 	return (
@@ -13,7 +14,8 @@ function Home() {
 				<HeroPride />
 
 				<HomeTrending />
-
+				{/* latest trailers */}
+				<HomeLatestTrailer />
 				{/* popular */}
 				<HomePopular />
 

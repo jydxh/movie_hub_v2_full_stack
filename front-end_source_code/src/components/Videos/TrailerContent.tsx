@@ -34,7 +34,11 @@ function TrailerContent({
 					mode === "home" ? setImgCount(index) : null;
 				}}
 				className={`mt-4  ${
-					mode !== "trailerPage" ? "flex-shrink-0  text-white " : null
+					mode === "home"
+						? "flex-shrink-0  text-white "
+						: mode === "movieDetailTrailer"
+						? "flex-shrink-0"
+						: null
 				}`}>
 				<div
 					onClick={handleClickOpen}

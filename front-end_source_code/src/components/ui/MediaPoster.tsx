@@ -36,6 +36,9 @@ function MediaPoster({
 	const handlePoster = () => {
 		setShow("poster");
 	};
+	const handleTrailer = () => {
+		setShow("trailers");
+	};
 	if (isError) {
 		<p className="mx-auto text-center text-xl">Error: {error.message}</p>;
 	}
@@ -51,7 +54,7 @@ function MediaPoster({
 					<div className="flex items-end justify-center gap-x-8">
 						{mode === "movie" && trailers && (
 							<button
-								onClick={handleBackDrop}
+								onClick={handleTrailer}
 								className={`${
 									show === "trailers" ? "" : "border-b-transparent"
 								} border-b-2 font-semibold`}>
@@ -79,8 +82,11 @@ function MediaPoster({
 					<div
 						className={`${
 							show === "trailers" ? "block " : "hidden "
-						} rounded-t-lg border-1 overflow-x-scroll my-4 flex`}>
+						} rounded-t-lg border-1 overflow-x-scroll my-4 flex gap-x-4`}>
 						{trailers.map((item, index) => {
+							const posterPath = backdrops[index]
+								? backdrops[index].file_path
+								: backdrops[0].file_path;
 							return (
 								<TrailerContent
 									key={item}
@@ -89,7 +95,7 @@ function MediaPoster({
 											trailer: trailers,
 											id: Number(Math.random().toFixed(4)),
 											original_title: "trailer video",
-											poster_path: backdrops[0].file_path,
+											poster_path: posterPath,
 										} as HomeLatestTrailer
 									}
 									index={index}

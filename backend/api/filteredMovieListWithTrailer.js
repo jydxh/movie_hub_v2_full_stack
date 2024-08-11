@@ -30,6 +30,10 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 					movie.trailer = videos.map(video => video.key);
 				} catch (err) {
 					console.log(err);
+					res.status(500).json({
+						msg: "server error, failded to fetch data, please try again!",
+						err,
+					});
 				}
 			})
 		);
@@ -42,6 +46,10 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 		};
 	} catch (error) {
 		console.log(error);
+		res.status(500).json({
+			msg: "server error, failded to fetch data, please try again!",
+			error,
+		});
 	}
 };
 

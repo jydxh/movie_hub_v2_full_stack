@@ -56,6 +56,7 @@ import { loader as TvSeasonsLoader } from "@/pages/TV/TvSeasons";
 import { loader as SinglePersonLoader } from "@/pages/SinglePerson";
 //import { loader as VerifyEmailLoader } from "@/pages/VerifyEmail";
 import { loader as UserInfoLoader } from "@/pages/User/UserProfile";
+import { loader as TrailerListLoader } from "@/pages/Trailer";
 
 const router = createBrowserRouter([
 	//const router = createHashRouter([
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
 			{
 				path: "trailers",
 				element: <Trailer />,
+				loader: TrailerListLoader,
 			},
 			{
 				path: "movie",

@@ -6,7 +6,7 @@ const movieTrailerList = async ({ page }: { page: number }) => {
 		`/movie/trailerList?page=${page}`
 	);
 
-	return res.data.results;
+	return res.data;
 };
 
-module.exports = movieTrailerList;
+export default movieTrailerList;

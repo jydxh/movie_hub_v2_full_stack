@@ -32,7 +32,7 @@ router.get("/movie/popular", async (req, res) => {
 
 // home->movie_trailer list
 router.get("/movie/trailer", async (req, res) => {
-	const results = await filteredMovieListWithTrailer();
+	const results = await filteredMovieListWithTrailer({ trim: true, page: "1" });
 	console.log(results);
 	res.json({ results });
 });

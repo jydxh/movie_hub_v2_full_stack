@@ -1,17 +1,24 @@
 const customFetch = require("./customFetch");
 
-const filteredMovieListWithTrailer = async () => {
+/* trim: boolean, when it is true, trim to first 10, when false, */
+
+const filteredMovieListWithTrailer = async ({ trim, page }) => {
 	try {
-		const res = await customFetch.get("/discover/movie");
+		const res = await customFetch.get(
+			`/discover/movie?page=${page}&sort_by=popularity.desc`
+		);
 		console.log(res.data.results);
 		const results = res.data.results;
 		const movieList = results.map((item, index) => {
-			if (index > 9) return;
+			if (trim && index > 9) return;
 			const { poster_path, id, original_title } = item;
 			return { poster_path, id, original_title, trailer: [] };
 		});
 		/* trim only first 10 */
-		movieList.splice(10, movieList.length - 10);
+		if (trim) {
+			movieList.splice(10, movieList.length - 10);
+		}
+
 		await Promise.all(
 			movieList.map(async movie => {
 				try {

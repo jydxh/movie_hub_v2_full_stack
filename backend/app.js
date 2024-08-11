@@ -3,6 +3,7 @@ require("express-async-errors");
 
 //const cors = require("cors");
 const express = require("express");
+const path = require("path");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
 	cloud_name: process.env.CLOUD_NAME,
@@ -24,6 +25,7 @@ const xss = require("xss-clean");
 const rateLimit = require("express-rate-limit");
 
 //app.use(cors());
+app.use(express.static(path.join(__dirname, "./public")));
 app.set("trust proxy", 1);
 app.use(
 	rateLimit({
@@ -32,8 +34,27 @@ app.use(
 		message: "you have reach the visit limit, please try again later",
 	})
 );
-app.use(xss());
-app.use(helmet());
+
+//app.use(xss());
+/* app.use(
+	helmet.contentSecurityPolicy({
+		directives: {
+			defaultSrc: ["'self'"],
+			imgSrc: [
+				"'self'",
+				"data:",
+				"https://image.tmdb.org",
+				"https://media.themoviedb.org",
+				"https://i.ytimg.com",
+			],
+			styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles
+			frameSrc: ["'self'", "https://www.youtube.com"], // Allow framing from YouTube
+			scriptSrc: ["'self'", "https://cdn.tailwindcss.com"], // Allow Tailwind CDN
+			fontSrc: ["'self'", "https://fonts.googleapis.com"], // Allow Google Fonts
+			// other directives...
+		},
+	})
+); */
 
 app.use(express.json());
 //app.use(morgan("dev"));

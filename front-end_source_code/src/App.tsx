@@ -75,7 +75,7 @@ const router = createBrowserRouter([
 			{
 				path: "trailers",
 				element: <Trailer />,
-				loader: TrailerListLoader,
+				loader: TrailerListLoader, // use the loader function to read the store.state.userName exists to know if login or not, if not login yet re-direct to login page, this way save code
 			},
 			{
 				path: "movie",

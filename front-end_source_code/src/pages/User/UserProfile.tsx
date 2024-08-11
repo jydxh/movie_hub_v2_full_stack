@@ -17,21 +17,22 @@ import { UserInfoType, UserAvatarAction } from "@/utils/types";
 import { AxiosError } from "axios";
 const formInput = ["name", "email", "city", "country"];
 
-export const loader: LoaderFunction =
-	async (): Promise<UserInfoType | null> => {
-		try {
-			const res = await customFetch("/user/userInfo");
-			console.log(res.data);
+export const loader: LoaderFunction = async (): Promise<
+	UserInfoType | null | Response
+> => {
+	try {
+		const res = await customFetch("/user/userInfo");
+		console.log(res.data);
 
-			store.dispatch(
-				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
-			);
-			return res.data.userInfo;
-		} catch (err) {
-			//	console.log(err);
-			return null;
-		}
-	};
+		store.dispatch(
+			login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
+		);
+		return res.data.userInfo;
+	} catch (err) {
+		//	console.log(err);
+		return null;
+	}
+};
 
 export const action: ActionFunction = async ({
 	request,

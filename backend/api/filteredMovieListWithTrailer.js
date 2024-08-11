@@ -37,7 +37,7 @@ const filteredMovieListWithTrailer = async ({ trim, page }) => {
 				}
 			})
 		);
-		console.log(movieList);
+		//console.log(movieList);
 		return {
 			results: movieList,
 			page: currentPage,

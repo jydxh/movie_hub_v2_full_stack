@@ -33,7 +33,7 @@ function HeroPride() {
 								Month.
 							</p>
 							<button className="border-2 border-white rounded-full px-6 py-[0.8rem] mt-8 font-semibold hover:text-blue-600">
-								<Link to="/list">Check out the list</Link>
+								<Link to="/trailers">Check out the list</Link>
 							</button>
 						</div>
 					</div>

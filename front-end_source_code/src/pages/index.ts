@@ -33,8 +33,10 @@ import Error from "./Error";
 import VerifyEmail from "./Auth/VerifyEmail";
 import ResetPwd from "./Auth/ResetPwd";
 import UserProfile from "./User/UserProfile";
+import Trailer from "./Trailer";
 
 export {
+	Trailer,
 	ResetPwd,
 	UserProfile,
 	VerifyEmail,

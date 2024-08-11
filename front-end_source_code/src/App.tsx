@@ -30,6 +30,7 @@ import {
 	VerifyEmail,
 	UserProfile,
 	ResetPwd,
+	Trailer,
 } from "./pages";
 
 import { action as LoginAction } from "@/pages/Login";
@@ -70,7 +71,10 @@ const router = createBrowserRouter([
 				loader: UserInfoLoader,
 				action: UserInfoAction,
 			},
-
+			{
+				path: "trailers",
+				element: <Trailer />,
+			},
 			{
 				path: "movie",
 				element: <MovieLayout />,

@@ -5,7 +5,8 @@ const fetchSingleMovieTrailer = async ({ id }) => {
 		const res = await customFetch(`/movie/${id}/videos`);
 
 		let videos = res.data.results.filter(
-			video => video.type === "Trailer" || video.type === "Featurette"
+			video => video.type === "Trailer"
+			//|| video.type === "Featurette"
 		);
 		videos = videos.map(video => video.key);
 

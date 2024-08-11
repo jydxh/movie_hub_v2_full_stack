@@ -25,7 +25,7 @@ export const loader: LoaderFunction = async ({
 
 	try {
 		const res = await movieTrailerList({ page: Number(page) });
-		console.log(res);
+		//console.log(res);
 		return res;
 	} catch (err) {
 		console.log(err);

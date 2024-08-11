@@ -16,7 +16,7 @@ function MediaPoster({
 }) {
 	const { id } = useParams();
 	const [show, setShow] = useState<"backdrop" | "poster" | "trailers">(
-		"trailers"
+		mode === "movie" ? "trailers" : "backdrop"
 	);
 	const { data, error, isPending, isError } = useQuery({
 		queryKey: ["MovieOrTvImages", id],

@@ -13,7 +13,7 @@ async function fetchMovieDetails({ id = "271110" }: { id?: string }) {
 	);
 	const results = lodash.cloneDeep(data) as MovieDetailWithTrailerResponse;
 	results.trailers = trailer.data.results;
-	console.log(results);
+	//console.log(results);
 	return results;
 }
 export default fetchMovieDetails;

@@ -47,7 +47,7 @@ function SingleTv() {
 			</div>
 		);
 	} else if (data) {
-		console.log(data);
+		//console.log(data);
 		const {
 			aggregate_credits: credits,
 			reviews,

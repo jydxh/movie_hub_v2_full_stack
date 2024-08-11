@@ -30,7 +30,7 @@ export const loader: LoaderFunction = async ({
 };
 
 function People() {
-	const { results, page, total_pages } = useLoaderData() as PeopleListResponse;
+	const { results, page } = useLoaderData() as PeopleListResponse;
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 	//console.log(useLoaderData());
@@ -54,7 +54,7 @@ function People() {
 					variant="outlined"
 					shape="rounded"
 					page={page}
-					count={total_pages}
+					count={500}
 					onChange={handleChange}
 				/>
 			</div>

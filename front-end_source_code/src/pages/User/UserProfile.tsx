@@ -22,7 +22,7 @@ export const loader: LoaderFunction = async (): Promise<
 > => {
 	try {
 		const res = await customFetch("/user/userInfo");
-		console.log(res.data);
+		//console.log(res.data);
 
 		store.dispatch(
 			login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
@@ -43,7 +43,7 @@ export const action: ActionFunction = async ({
 	if (actionType === "updateUserInfo") {
 		try {
 			const res = await customFetch.post("/user/userInfo", formData);
-			console.log(res.data);
+			//console.log(res.data);
 			store.dispatch(
 				login({ username: res.data.userInfo.name, exp: res.data.userInfo.exp })
 			);
@@ -77,7 +77,7 @@ export const action: ActionFunction = async ({
 	} else if (actionType === "updatePassword") {
 		delete formData.actionType;
 		const regExp = new RegExp("^[a-zA-Z0-9]{6,20}$");
-		console.log(formData);
+		//console.log(formData);
 		const { newPassword, repeat_password } = formData;
 		let counter = 0;
 		for (const i in formData) {
@@ -102,7 +102,7 @@ export const action: ActionFunction = async ({
 				"/auth/resetPwd",
 				formData
 			);
-			console.log(res.data.msg);
+			//console.log(res.data.msg);
 			return json({ status: 201, msg: res.data.msg });
 		} catch (err) {
 			const error = err as AxiosError<{ msg: string | null }>;

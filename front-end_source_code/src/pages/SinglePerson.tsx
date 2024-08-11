@@ -24,7 +24,7 @@ export const loader: LoaderFunction = async ({
 
 function SinglePerson() {
 	const data = useLoaderData() as PersonMultiFetchResponse;
-	console.log(data);
+	//	console.log(data);
 	const {
 		name,
 		profile_path,

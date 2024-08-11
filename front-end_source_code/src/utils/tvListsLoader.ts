@@ -8,7 +8,7 @@ function tvListsLoader(
 	return async ({ request }): Promise<TVResponse | null> => {
 		const url = new URL(request.url);
 		const searchParams = url.searchParams.get("with_genres");
-		console.log(searchParams);
+		//	console.log(searchParams);
 
 		try {
 			if (searchParams) {

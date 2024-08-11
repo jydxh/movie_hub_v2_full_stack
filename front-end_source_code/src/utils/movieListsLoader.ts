@@ -10,7 +10,7 @@ function movieListsLoader(
 
 		const searchParams = url.searchParams.get("with_genres");
 		const page = url.searchParams.get("page") || "1";
-		console.log(searchParams);
+		//console.log(searchParams);
 
 		try {
 			if (searchParams) {

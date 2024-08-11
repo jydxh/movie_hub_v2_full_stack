@@ -152,6 +152,9 @@ function Login() {
 					<Input
 						required
 						value={pwd}
+						onChange={evt => {
+							setPwd(evt.target.value);
+						}}
 						onFocus={handleFocus}
 						onBlur={handleBlur}
 						placeholder="password"

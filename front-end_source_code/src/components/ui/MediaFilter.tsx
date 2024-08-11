@@ -34,7 +34,7 @@ function MediaFilter({ mode }: { mode: "movie" | "tv" }) {
 			setIsLoading(true);
 			try {
 				const data = await fetchGenres({ mode });
-				console.log(data);
+				//console.log(data);
 				setData(data);
 			} catch (error) {
 				console.log(error);
@@ -42,7 +42,7 @@ function MediaFilter({ mode }: { mode: "movie" | "tv" }) {
 			setIsLoading(false);
 		};
 		fetchData();
-	}, []);
+	}, [mode]);
 
 	const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault();

@@ -26,6 +26,7 @@ const rateLimit = require("express-rate-limit");
 
 //app.use(cors());
 app.use(express.static(path.join(__dirname, "./public")));
+
 app.set("trust proxy", 1);
 app.use(
 	rateLimit({
@@ -35,8 +36,8 @@ app.use(
 	})
 );
 
-//app.use(xss());
-/* app.use(
+app.use(xss());
+app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
 			defaultSrc: ["'self'"],
@@ -54,7 +55,7 @@ app.use(
 			// other directives...
 		},
 	})
-); */
+);
 
 app.use(express.json());
 //app.use(morgan("dev"));
@@ -64,7 +65,10 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1", getMediaRouter);
-
+// Catch-all rest route to handle client-side routing
+app.use("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 app.use(errorHanlderModdleware);
 const port = process.env.PORT || 5000;
 

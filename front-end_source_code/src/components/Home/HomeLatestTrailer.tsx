@@ -3,8 +3,9 @@ import homeLatestTrailer from "@/api/videos/homeLatestTrailer";
 import { baseImgUrl } from "@/utils/types";
 import { useState } from "react";
 import backgroundColor from "@/utils/backgroundColor";
-import TrailerCard from "./TrailerCard";
+
 import Skeleton from "@mui/material/Skeleton";
+import TrailerContent from "../Videos/TrailerContent";
 
 function HomeLatestTrailer() {
 	const { data, isError, isLoading } = useQuery({
@@ -17,7 +18,7 @@ function HomeLatestTrailer() {
 	const bgColor = backgroundColor(String(imgCount));
 
 	return (
-		<section className="max-w-[1400px] mx-auto p-8 relative">
+		<section className="max-w-[1400px] px-4 mx-6 py-6 relative">
 			{data && (
 				<>
 					<div
@@ -33,10 +34,11 @@ function HomeLatestTrailer() {
 						</h4>
 						<div className="flex overflow-x-scroll gap-x-4 custom-scrollbar ">
 							{data.map((item, index) => (
-								<TrailerCard
+								<TrailerContent
 									key={item.id}
 									index={index}
 									data={item}
+									forHome={true}
 									setImgCount={setImgCount}
 								/>
 							))}

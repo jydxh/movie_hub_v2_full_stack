@@ -5,12 +5,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { Dialog } from "@mui/material";
-function TrailerCard({
+
+function TrailerContent({
 	data,
+	forHome,
 	index,
 	setImgCount,
 }: {
 	data: HomeLatestTrailer;
+	forHome: boolean;
 	index: number;
 	setImgCount: (index: number) => void;
 }) {
@@ -23,13 +26,14 @@ function TrailerCard({
 	const handleClose = () => {
 		setOpen(false);
 	};
-	console.log(data);
 	const { original_title, poster_path, trailer } = data;
 	return (
 		<>
 			<div
-				className="mt-4 flex-shrink-0 text-white "
-				onMouseEnter={() => setImgCount(index)}>
+				onMouseEnter={() => {
+					forHome ? setImgCount(index) : null;
+				}}
+				className={`mt-4  ${forHome ? "flex-shrink-0  text-white " : null}`}>
 				<div
 					onClick={handleClickOpen}
 					className="relative hover:scale-105 duration-200 ease-in-out cursor-pointer ">
@@ -44,13 +48,15 @@ function TrailerCard({
 					/>
 				</div>
 
-				<p className="text-center my-4 ">{original_title}</p>
+				<p className="text-center my-4 line-clamp-1 w-[80%] ">
+					{original_title}
+				</p>
 			</div>
 
-			<Dialog open={open} onClose={handleClose} maxWidth={false} fullWidth>
+			<Dialog open={open} onClose={handleClose} maxWidth="xl" fullWidth>
 				<div className="relative">
 					<div className="flex justify-between items-center p-4 text-sm md:text-base">
-						<p className="text-sm md:text-base">Watch Trailer</p>
+						<p className="text-sm md:text-base ">Watch Trailer</p>
 						<IconButton
 							edge="end"
 							color="inherit"
@@ -60,7 +66,7 @@ function TrailerCard({
 						</IconButton>
 					</div>
 					{/* pb-[56.25%] is for a better aspect-ratio */}
-					<div className="relative pb-[56.25%]">
+					<div className="relative pb-[56.25%] ">
 						<iframe
 							className="absolute top-0 left-0 w-full h-full"
 							src={`https://www.youtube.com/embed/${trailer[0]}`}
@@ -73,4 +79,4 @@ function TrailerCard({
 		</>
 	);
 }
-export default TrailerCard;
+export default TrailerContent;

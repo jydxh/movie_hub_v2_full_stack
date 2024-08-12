@@ -15,4 +15,4 @@
   - 1. connect with backend API to fetch TMDB data;
   - 2. provide user login/registration, user info update interface, user input validation, and error message handling
 
-- demo app is deployed at the link: https://movie-hub-v1.onrender.com/ 
+- demo app is deployed at the link: https://movie-hub-v1.onrender.com/  (it might take a while for the first time to load since the Render Server need to turn on the VM)

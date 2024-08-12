@@ -9,6 +9,7 @@ const cryptpRandomByte = promisify(crypto.randomBytes);
 const { sendEmail, sendDummyEamil } = require("../utils/sendEmail");
 const { attatchCookiesToRes, decodeJwt } = require("../utils/jwt");
 
+// const origin = "https://movie-hub-v1.onrender.com"; // in production mode
 const origin = "http://localhost:5173";
 
 const register = async (req, res) => {

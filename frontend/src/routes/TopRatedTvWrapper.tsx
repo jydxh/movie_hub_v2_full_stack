@@ -1,4 +1,4 @@
-import TopRatedTv from "@/pages/TV/TopRatedTv";
+import { TopRatedTv } from "@/pages";
 import { useLocation } from "react-router";
 
 function TopRatedTvWrapper() {

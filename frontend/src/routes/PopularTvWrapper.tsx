@@ -1,4 +1,4 @@
-import PopularTv from "@/pages/TV/PopularTv";
+import { PopularTv } from "@/pages";
 import { useLocation } from "react-router";
 
 function PopularTvWrapper() {

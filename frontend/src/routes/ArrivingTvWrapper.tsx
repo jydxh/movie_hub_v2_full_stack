@@ -1,4 +1,4 @@
-import ArrivingTv from "@/pages/TV/ArrivingTv";
+import { ArrivingTv } from "@/pages";
 import { useLocation } from "react-router";
 
 function ArrivingTvWrapper() {

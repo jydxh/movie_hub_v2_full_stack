@@ -1,41 +1,52 @@
-import Home from "./Home";
-import Layout from "./Layout";
-import Login from "./Login";
-import Register from "./Register";
+import { lazy } from "react";
 
-import TvLayout from "./TV/TvLayout";
-import People from "./People";
-import SingleMovie from "./SingleMovie";
-import Search from "./Search";
-import MultSearch from "./Search/MultSearch";
-import PeopleSearch from "./Search/PeopleSearch";
-import MovieSearch from "./Search/MovieSearch";
-import CollectionsSearch from "./Search/CollectionsSearch";
-import TVshowsSearch from "./Search/TVshowsSearch";
+const Home = lazy(() => import("./Home"));
+const Layout = lazy(() => import("./Layout"));
+const Login = lazy(() => import("./Login"));
+const Register = lazy(() => import("./Register"));
 
-import MovieLayout from "./Movie/MovieLayout";
-import PlayingMovie from "./Movie/PlayingMovie";
-import PopularMovie from "./Movie/PopularMovie";
-import TopRatedMovie from "./Movie/TopRatedMovie";
-import UpcomingMovie from "./Movie/UpcomingMovie";
+const TvLayout = lazy(() => import("./TV/TvLayout"));
+const People = lazy(() => import("./People"));
+const SingleMovie = lazy(() => import("./SingleMovie"));
+const Search = lazy(() => import("./Search"));
+const MultSearch = lazy(() => import("./Search/MultSearch"));
+const PeopleSearch = lazy(() => import("./Search/PeopleSearch"));
+const MovieSearch = lazy(() => import("./Search/MovieSearch"));
+const CollectionsSearch = lazy(() => import("./Search/CollectionsSearch"));
+const TVshowsSearch = lazy(() => import("./Search/TVshowsSearch"));
 
-import SinglePerson from "./SinglePerson";
-import SingleTv from "./SingleTv";
-import MovieHome from "./Movie/MovieHome";
-import TvHome from "./TV/TvHome";
+const MovieLayout = lazy(() => import("./Movie/MovieLayout"));
+const PlayingMovie = lazy(() => import("./Movie/PlayingMovie"));
+const PopularMovie = lazy(() => import("./Movie/PopularMovie"));
+const TopRatedMovie = lazy(() => import("./Movie/TopRatedMovie"));
+const UpcomingMovie = lazy(() => import("./Movie/UpcomingMovie"));
 
-import MovieCast from "./Movie/MovieCast";
-import MovieReviews from "./Movie/MovieReviews";
-import TvCast from "./TV/TvCast";
-import TvReviews from "./TV/TvReviews";
-import TvSeasons from "./TV/TvSeasons";
-import Error from "./Error";
-import VerifyEmail from "./Auth/VerifyEmail";
-import ResetPwd from "./Auth/ResetPwd";
-import UserProfile from "./User/UserProfile";
-import Trailer from "./Trailer";
+const SinglePerson = lazy(() => import("./SinglePerson"));
+const SingleTv = lazy(() => import("./SingleTv"));
+const MovieHome = lazy(() => import("./Movie/MovieHome"));
+const TvHome = lazy(() => import("./TV/TvHome"));
+
+const MovieCast = lazy(() => import("./Movie/MovieCast"));
+const MovieReviews = lazy(() => import("./Movie/MovieReviews"));
+const TvCast = lazy(() => import("./TV/TvCast"));
+const TvReviews = lazy(() => import("./TV/TvReviews"));
+const TvSeasons = lazy(() => import("./TV/TvSeasons"));
+const Error = lazy(() => import("./Error"));
+const VerifyEmail = lazy(() => import("./Auth/VerifyEmail"));
+const ResetPwd = lazy(() => import("./Auth/ResetPwd"));
+const UserProfile = lazy(() => import("./User/UserProfile"));
+const Trailer = lazy(() => import("./Trailer"));
+
+const ArrivingTv = lazy(() => import("./TV/ArrivingTv"));
+const OnTv = lazy(() => import("./TV/OnTv"));
+const PopularTv = lazy(() => import("./TV/PopularTv"));
+const TopRatedTv = lazy(() => import("./TV/TopRatedTv"));
 
 export {
+	TopRatedTv,
+	PopularTv,
+	OnTv,
+	ArrivingTv,
 	Trailer,
 	ResetPwd,
 	UserProfile,

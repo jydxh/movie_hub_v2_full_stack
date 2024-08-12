@@ -1,4 +1,4 @@
-import OnTv from "@/pages/TV/OnTv";
+import { OnTv } from "@/pages";
 import { useLocation } from "react-router";
 
 function OnTvWrapper() {

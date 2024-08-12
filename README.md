@@ -1,5 +1,7 @@
 - This is a full-stack movie_hub web app
 
+- to run this app at local machine, open you CLI and CD to backend dir, type `node app.js`, and then open another CLI and CD to frontend dir, type `npm run dev`.
+
 - technical stack: 
     - front-end: react, react-router, redux, react-query, tailwindcss, MUI
     - back-end: Node.js, express, MongoDB, mongoose

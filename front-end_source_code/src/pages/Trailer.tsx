@@ -54,7 +54,7 @@ function Trailer() {
 						<h3 className="mb-2">Total Results: {total_results}</h3>
 						<Divider />
 						<div className="mt-4">
-							<ul className="grid grid-cols-1 sm:grid-cols-2 md:place-content-center md:flex md:flex-wrap gap-6">
+							<ul className="grid grid-cols-1 sm:grid-cols-2 place-content-center md:flex md:flex-wrap gap-6">
 								{trailers.map((item, index) => {
 									return (
 										<TrailerContent

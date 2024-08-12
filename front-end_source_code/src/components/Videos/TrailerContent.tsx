@@ -52,7 +52,7 @@ function TrailerContent({
 				onMouseEnter={() => {
 					mode === "home" ? setImgCount(index) : null;
 				}}
-				className={`mt-4  ${
+				className={`mt-4 mx-auto  ${
 					mode === "home"
 						? "flex-shrink-0  text-white "
 						: mode === "movieDetailTrailer"

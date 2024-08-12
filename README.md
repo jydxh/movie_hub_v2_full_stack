@@ -5,7 +5,7 @@
     - back-end: Node.js, express, MongoDB, mongoose
 
 - backend function: 
-  - 1. using the third-party API to fetch the data from TMDB, and forward JSON to front_end;
+ - 1. using the third-party API to fetch the data from TMDB, and forward JSON to front_end;
  - 2. user registration, login-in, logout, authentication cookie jwt, reset password, user info update, and even deleting user account
  - 3. authentication middleware protects some route
 

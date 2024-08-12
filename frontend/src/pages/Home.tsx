@@ -2,7 +2,7 @@ import HomeSearch from "@/components/Home/HomeSearch";
 import HeroPride from "@/components/Home/HeroPride";
 
 /* when using lazy-loading, 6048.38ms load front-page */
-/* when not using 6902.80ms */
+/* when not using 7214.47ms */
 // import HomeTrending from "@/components/Home/HomeTrending";
 // import HomePopular from "@/components/Home/HomePopular";
 // import HomeFreeWatch from "@/components/Home/HomeFreeWatch";
@@ -36,12 +36,12 @@ function Home() {
 				<HomeSearch />
 				<HeroPride />
 
-				{/* 	<HomeTrending />
-			
+				{/* <HomeTrending />
+
 				<HomeLatestTrailer />
-			
+
 				<HomePopular />
-			
+
 				<HomeFreeWatch /> */}
 				<Suspense fallback={<LoadingSkeleton />}>
 					<HomeTrending />

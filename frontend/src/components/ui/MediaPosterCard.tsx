@@ -11,6 +11,7 @@ function MediaPosterCard({ data }: { data: Backdrop }) {
 				rel="noopener noreferrer"
 				target="_blank">
 				<img
+					loading="lazy"
 					src={`${baseImgUrl}/w1066_and_h600_bestv2/${file_path}`}
 					className="h-[18rem]  w-auto "
 				/>

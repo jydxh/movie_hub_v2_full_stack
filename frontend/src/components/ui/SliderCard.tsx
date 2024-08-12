@@ -24,6 +24,7 @@ export function SliderCard({ data }: SliderCardProps) {
 					<div className="w-[10rem] h-[24rem] mt-4 flex-shrink-0" key={id}>
 						<Link to={`${release_date ? `/movie/${id}` : `/tv_show/${id}`}`}>
 							<img
+								loading="lazy"
 								src={`${baseImgUrl}/original/${poster_path}`}
 								alt={title || name}
 								className="w-[10rem] rounded-md shadow-lg"

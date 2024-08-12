@@ -67,6 +67,7 @@ function TrailerContent({
 						className="absolute -translate-y-1/2 -translate-x-1/2 top-1/2 left-1/2 "
 					/>
 					<img
+						loading="lazy"
 						className="w-[300px] rounded "
 						src={`${baseImgUrl}/w355_and_h200_multi_faces${poster_path}`}
 						alt={original_title}

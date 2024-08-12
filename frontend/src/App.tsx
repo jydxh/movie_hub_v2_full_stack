@@ -4,35 +4,7 @@ import {
 	RouterProvider,
 } from "react-router-dom";
 import { Suspense } from "react";
-/* const Layout = lazy(() => import("./pages/Layout"));
-const Home = lazy(() => import("./pages/Home"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
-const MovieLayout = lazy(() => import("./pages/Movie/MovieLayout"));
-const TvLayout = lazy(() => import("./pages/TV/TvLayout"));
-const People = lazy(() => import("./pages/People"));
-const SingleMovie = lazy(() => import("./pages/SingleMovie.tsx"));
-const Search = lazy(() => import("./pages/Search.tsx"));
-const MultSearch = lazy(() => import("./pages/Search/MultSearch.tsx"));
-const MovieSearch = lazy(() => import("./pages/Search/MovieSearch.tsx"));
-const PeopleSearch = lazy(() => import("./pages/Search/PeopleSearch.tsx"));
-const CollectionsSearch = lazy(
-	() => import("./pages/Search/CollectionsSearch.tsx")
-);
-const TVshowsSearch = lazy(() => import("./pages/Search/TVshowsSearch.tsx"));
-const SingleTv = lazy(() => import("./pages/SingleTv.tsx"));
-const SinglePerson = lazy(() => import("./pages/SinglePerson.tsx"));
-const MovieHome = lazy(() => import("./pages/Movie/MovieHome.tsx"));
-const MovieCast = lazy(() => import("./pages/Movie/MovieCast.tsx"));
-const MovieReviews = lazy(() => import("./pages/Movie/MovieReviews.tsx"));
-const TvCast = lazy(() => import("./pages/TV/TvCast.tsx"));
-const TvReviews = lazy(() => import("./pages/TV/TvReviews.tsx"));
-const TvSeasons = lazy(() => import("./pages/TV/TvSeasons.tsx"));
-const Error = lazy(() => import("./pages/Error.tsx"));
-const VerifyEmail = lazy(() => import("./pages/Auth/VerifyEmail.tsx"));
-const UserProfile = lazy(() => import("./pages/User/UserProfile.tsx"));
-const ResetPwd = lazy(() => import("./pages/Auth/ResetPwd.tsx"));
-const Trailer = lazy(() => import("./pages/Trailer.tsx")); */
+/* after the lazing load router is speed up to 1.709s */
 
 import {
 	Layout,
@@ -65,14 +37,13 @@ import {
 	TvHome,
 } from "./pages";
 
-import { action as LoginAction } from "@/pages/Login";
-import { action as RegisterAction } from "@/pages/Register";
-import { action as UserInfoAction } from "@/pages/User/UserProfile";
-import { action as ResetPwdAction } from "@/pages/Auth/ResetPwd";
+/* action function */
+import { LoginAction } from "@/loaderAction/LoginAction";
+import { RegisterAction } from "@/loaderAction/RegisterAction";
+import { UserInfoAction } from "@/loaderAction/UserInfoAction";
+import { ResetPwdAction } from "@/loaderAction/ResetPwdAction";
 
-import multiSearchLoader from "@/utils/multiSearchLoader";
-import movieListsLoader from "./utils/movieListsLoader";
-
+/* these are pages and has lazy loaded */
 import PopularMovieWrapper from "./routes/PopularMovieWrapper";
 import PlayingMovieWrapper from "./routes/PlayingMovieWrapper";
 import UpcomingMovieWrapper from "./routes/UpcomingMovieWrapper";
@@ -83,15 +54,17 @@ import PopularTvWrapper from "./routes/PopularTvWrapper";
 import TopRatedTvWrapper from "./routes/TopRatedTvWrapper";
 
 /* loader */
-import { loader as MovieHomeLoader } from "@/pages/Movie/MovieHome";
-import { loader as TvHomeLoader } from "@/pages/TV/TvHome";
-import tvListsLoader from "./utils/tvListsLoader";
-import { loader as PopularPeopleLoader } from "@/pages/People";
-import { loader as TvSeasonsLoader } from "@/pages/TV/TvSeasons";
-import { loader as SinglePersonLoader } from "@/pages/SinglePerson";
-//import { loader as VerifyEmailLoader } from "@/pages/VerifyEmail";
-import { loader as UserInfoLoader } from "@/pages/User/UserProfile";
-import { loader as TrailerListLoader } from "@/pages/Trailer";
+import multiSearchLoader from "@/utils/multiSearchLoader";
+import movieListsLoader from "@/utils/movieListsLoader";
+import { MovieHomeLoader } from "@/loaderAction/MovieHomeLoader";
+import { TvHomeLoader } from "@/loaderAction/TvHomeLoader";
+import tvListsLoader from "@/utils/tvListsLoader";
+import { PeopleLoader } from "@/loaderAction/PeopleLoader";
+import { TvSeasonsLoader } from "@/loaderAction/TvSeasonsLoader";
+import { SinglePersonLoader } from "@/loaderAction/SinglePersonLoader";
+
+import { UserInfoLoader } from "@/loaderAction/UserInfoLoader";
+import { TrailerListLoader } from "@/loaderAction/TrailerListLoader";
 
 const router = createBrowserRouter([
 	//const router = createHashRouter([
@@ -180,7 +153,7 @@ const router = createBrowserRouter([
 				element: <TvSeasons />,
 				loader: TvSeasonsLoader,
 			},
-			{ path: "people", element: <People />, loader: PopularPeopleLoader },
+			{ path: "people", element: <People />, loader: PeopleLoader },
 			{
 				path: "people/:id",
 				element: <SinglePerson />,
@@ -252,7 +225,3 @@ export default function App() {
 		</Suspense>
 	);
 }
-
-//aggregate_credits,reviews,recommendations
-
-//

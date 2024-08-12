@@ -1,33 +1,7 @@
-import fetchPopularPeople from "@/api/fetchPopularPeople";
 import PeopleCard from "@/components/ui/PeopleCard";
 import { PeopleListResponse } from "@/utils/types";
 import { Divider, Pagination } from "@mui/material";
-import {
-	LoaderFunction,
-	useLoaderData,
-	useLocation,
-	useNavigate,
-} from "react-router";
-
-export const loader: LoaderFunction = async ({
-	request,
-}): Promise<PeopleListResponse | null> => {
-	const url = new URL(request.url);
-	const search = url.searchParams;
-	const page = search.get("page");
-	try {
-		if (page) {
-			const res = await fetchPopularPeople(Number(page));
-			return res;
-		} else {
-			const res = await fetchPopularPeople();
-			return res;
-		}
-	} catch (error) {
-		console.log(error);
-		return null;
-	}
-};
+import { useLoaderData, useLocation, useNavigate } from "react-router";
 
 function People() {
 	const { results, page } = useLoaderData() as PeopleListResponse;

@@ -1,23 +1,9 @@
-import { LoaderFunction, useLoaderData, useParams } from "react-router";
-import { customFetch } from "@/api/customFetch";
+import { useLoaderData, useParams } from "react-router";
+
 import { TvBaseResponse } from "@/utils/types";
 
 import MediaCastHeader from "@/components/Movie/MediaCastHeader";
 import TvSeasonsCard from "@/components/TVshows/TvSeasonsCard";
-
-export const loader: LoaderFunction = async ({
-	params,
-}): Promise<TvBaseResponse | null> => {
-	try {
-		const res = await customFetch<TvBaseResponse>(
-			`/tv/${params.id}?language=en-US`
-		);
-		return res.data;
-	} catch (error) {
-		console.log(error);
-		return null;
-	}
-};
 
 function TvSeasons() {
 	const { id } = useParams();

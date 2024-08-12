@@ -2,25 +2,12 @@ import PersonKnowfor from "@/components/People/PersonKnowfor";
 import PersonBio from "@/components/People/PersonBio";
 import PersonInfo from "@/components/People/PersonInfo";
 
-import { LoaderFunction, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import { PersonMultiFetchResponse, baseImgUrl } from "@/utils/types";
-import fetchPeopleMulti from "@/api/fetchPeopleMulti";
+
 import { Divider } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-
-export const loader: LoaderFunction = async ({
-	params,
-}): Promise<PersonMultiFetchResponse | null> => {
-	const { id } = params;
-	try {
-		const res = await fetchPeopleMulti({ id });
-		return res;
-	} catch (error) {
-		console.log(error);
-		return null;
-	}
-};
 
 function SinglePerson() {
 	const data = useLoaderData() as PersonMultiFetchResponse;

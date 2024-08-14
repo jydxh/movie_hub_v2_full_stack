@@ -78,7 +78,7 @@ function MediaPoster({
 						</button>
 					</div>
 				</div>
-				{trailers && (
+				{trailers ? (
 					<div
 						className={`${
 							show === "trailers" ? "block " : "hidden "
@@ -105,23 +105,33 @@ function MediaPoster({
 							);
 						})}
 					</div>
+				) : (
+					<p className="p-4 capitalize"> no trailer avialble</p>
 				)}
 
 				<div
 					className={`${
 						show === "backdrop" ? "block " : "hidden "
 					} rounded-t-lg border-1 overflow-x-scroll my-4 flex`}>
-					{backdrops.map(backdrop => (
-						<MediaPosterCard data={backdrop} key={backdrop.file_path} />
-					))}
+					{backdrops ? (
+						backdrops.map(backdrop => (
+							<MediaPosterCard data={backdrop} key={backdrop.file_path} />
+						))
+					) : (
+						<p className="p-4 capitalize">no backdrop avialble</p>
+					)}
 				</div>
 				<div
 					className={`${
 						show === "poster" ? "block " : "hidden "
 					} rounded-t-lg border-1 overflow-x-scroll my-4 flex`}>
-					{posters.map(poster => (
-						<MediaPosterCard data={poster} key={poster.file_path} />
-					))}
+					{posters ? (
+						posters.map(poster => (
+							<MediaPosterCard data={poster} key={poster.file_path} />
+						))
+					) : (
+						<p className="p-4 capitalize">no poster avialble</p>
+					)}
 				</div>
 			</section>
 		);

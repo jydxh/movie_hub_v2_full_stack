@@ -4,9 +4,10 @@ import { MediaImages, HomeLatestTrailer } from "@/utils/types";
 import { useState } from "react";
 import fetchMovieCustom from "@/api/MovieApi/fetchMovieCustom";
 import fetchTvMulti from "@/api/TvApi/fetchTvMulti";
-import MediaPosterCard from "./MediaPosterCard";
-import Gallery from "./Gallery";
+
 import TrailerContent from "../Videos/TrailerContent";
+
+import LazyMediaPoster from "./LazyMediaPoster";
 
 function MediaPoster({
 	mode = "movie",
@@ -79,6 +80,7 @@ function MediaPoster({
 						</button>
 					</div>
 				</div>
+				{/* since the trailer is not that long list, no need to do the lazy loading */}
 				{trailers && (
 					<div
 						className={`${
@@ -107,29 +109,9 @@ function MediaPoster({
 						})}
 					</div>
 				)}
+				<LazyMediaPoster show={show} backdrops={backdrops} mode="backdrop" />
 
-				<div
-					className={`${
-						show === "backdrop" ? "block " : "hidden "
-					} rounded-t-lg border-1 overflow-x-scroll my-4 flex`}>
-					{backdrops ? (
-						backdrops.map(backdrop => (
-							<MediaPosterCard data={backdrop} key={backdrop.file_path} />
-						))
-					) : (
-						<p className="p-4 capitalize">no backdrop avialble</p>
-					)}
-				</div>
-				<div
-					className={`${
-						show === "poster" ? "block " : "hidden "
-					} rounded-t-lg border-1  overflow-x-scroll scroll-smooth my-4 flex`}>
-					{posters ? (
-						<Gallery images={posters} />
-					) : (
-						<p className="p-4 capitalize">no poster avialble</p>
-					)}
-				</div>
+				<LazyMediaPoster show={show} backdrops={posters} mode="poster" />
 			</section>
 		);
 	}

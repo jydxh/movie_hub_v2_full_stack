@@ -27,7 +27,6 @@ function Gal({
 						key={file_path}
 						href={`${baseImgUrl}/w1066_and_h600_bestv2/${file_path}`}
 						className="block h-[18rem] flex-shrink-0"
-						rel="noopener noreferrer"
 						target="_blank">
 						<LazyLoadImage
 							loading="lazy"

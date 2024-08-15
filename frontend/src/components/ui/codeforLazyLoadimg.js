@@ -79,3 +79,66 @@ const ImageContainer = () => {
 export default ImageContainer;
 /* note that all the img need a placeholder, with the same size of img, so it wont change the size of the whole img list */
 /* 511.68px  * 18rem */
+
+
+
+
+
+/* ************ another way */
+
+import loadingUrl from '@/assets/imgs/loading.jpg';
+import styles from '../index.less';
+import React, { useRef, useEffect, useState } from 'react';
+// 图片url
+const imgUrls = (num = 10) => {
+  const urls = [];
+  for (let i = 0; i < num; i++) {
+    const url = `https://robohash.org/${i}.png`;
+    urls.push(url);
+  }
+  return urls;
+};
+
+const LazyLoadImage = ({ src, alt }) => {
+  const [imageSrc, setImageSrc] = useState(loadingUrl);
+  const imgRef = useRef(null as any);
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    if (imgRef.current) {
+      // 创建IntersectionObserver实例
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          // 当图片进入可视区域时，设置图片地址进行加载
+          if (entry.isIntersecting) {
+            setImageSrc(src);
+            observer.unobserve(imgRef.current);
+          }
+        },
+        {
+          rootMargin: '0px 0px 200px 0px', // 可视区域的上边距设置为200px
+        },
+      );
+      observer.observe(imgRef.current); //开始观察目标元素
+    }
+    return () => {
+      if (observer && observer.unobserve) {
+        observer.unobserve(imgRef.current);
+      }
+    };
+  }, [src]);
+
+  return <img ref={imgRef} src={imageSrc} alt={alt} />;
+};
+
+const LazyLoading = () => {
+  return (
+    <div className={styles['box-two']}>
+      {imgUrls(100).map((item) => {
+        return <LazyLoadImage src={item} alt="lazy load image" />;
+      })}
+    </div>
+  );
+};
+
+export default LazyLoading;

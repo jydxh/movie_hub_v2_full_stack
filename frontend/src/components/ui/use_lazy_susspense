@@ -1,0 +1,141 @@
+import React, { Suspense, lazy } from "react";
+
+const DynamicImage = ({ src, alt, ...props }) => {
+	const LazyImageComponent = lazy(() => import(`./ImageComponent.js`));
+
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<LazyImageComponent src={src} alt={alt} {...props} />
+		</Suspense>
+	);
+};
+
+export default DynamicImage;
+
+/* ************************** */
+
+import React from "react";
+
+const ImageComponent = ({ src, alt, ...props }) => (
+	<img src={src} alt={alt} {...props} />
+);
+
+export default ImageComponent;
+
+/* ************************* */
+
+import React, { useRef, useState, useEffect } from "react";
+import DynamicImage from "./DynamicImage";
+
+const ImageContainer = () => {
+	const containerRef = useRef(null);
+	const [imagesToLoad, setImagesToLoad] = useState([]);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			entries => {
+				const newImagesToLoad = [];
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const img = entry.target;
+						newImagesToLoad.push(img.dataset.src);
+						observer.unobserve(img);
+					}
+				});
+				setImagesToLoad(prevImages => [...prevImages, ...newImagesToLoad]);
+			},
+			{
+				root: containerRef.current,
+				rootMargin: "1000px 0px",
+				threshold: 0,
+			}
+		);
+
+		const elements = containerRef.current?.children;
+		if (elements) {
+			Array.from(elements).forEach(element => observer.observe(element));
+		}
+
+		return () => {
+			if (elements) {
+				Array.from(elements).forEach(element => observer.unobserve(element));
+			}
+		};
+	}, []);
+
+	return (
+		<div
+			ref={containerRef}
+			style={{ overflowX: "scroll", whiteSpace: "nowrap", width: "100%" }}>
+			<div>
+				{imagesToLoad.map((src, index) => (
+					<DynamicImage
+						key={index}
+						src={src}
+						alt={`Image ${index + 1}`}
+						style={{ width: "200px", height: "auto" }}
+					/>
+				))}
+			</div>
+			{/* Add more images with data-src attributes here */}
+		</div>
+	);
+};
+
+export default ImageContainer;
+
+// Example of Efficient Dynamic Loading
+import React, { useRef, useState, useEffect } from "react";
+import DynamicImage from "./DynamicImage"; // Assume this uses React.lazy and Suspense
+
+const ImageContainer = () => {
+	const containerRef = useRef(null);
+	const [imagesToLoad, setImagesToLoad] = useState([]);
+	const [visibleImages, setVisibleImages] = useState([]);
+
+	const loadImages = () => {
+		const imagesInView = Array.from(
+			containerRef.current?.children || []
+		).filter(
+			img =>
+				img.dataset.src &&
+				img.getBoundingClientRect().top < window.innerHeight + 1000
+		);
+
+		setImagesToLoad(prevImages => [
+			...new Set([...prevImages, ...imagesInView.map(img => img.dataset.src)]),
+		]);
+	};
+
+	useEffect(() => {
+		const handleScroll = () => {
+			loadImages();
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		loadImages(); // Initial load
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
+
+	return (
+		<div
+			ref={containerRef}
+			style={{ overflowX: "scroll", whiteSpace: "nowrap", width: "100%" }}>
+			{visibleImages.map((src, index) => (
+				<DynamicImage
+					key={index}
+					src={imagesToLoad.includes(src) ? src : ""}
+					alt={`Image ${index + 1}`}
+					style={{ width: "200px", height: "auto" }}
+					data-src={src}
+				/>
+			))}
+			{/* Add more images with data-src attributes here */}
+		</div>
+	);
+};
+
+export default ImageContainer;

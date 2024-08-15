@@ -5,6 +5,7 @@ import { useState } from "react";
 import fetchMovieCustom from "@/api/MovieApi/fetchMovieCustom";
 import fetchTvMulti from "@/api/TvApi/fetchTvMulti";
 import MediaPosterCard from "./MediaPosterCard";
+import Gallery from "./Gallery";
 import TrailerContent from "../Videos/TrailerContent";
 
 function MediaPoster({
@@ -78,7 +79,7 @@ function MediaPoster({
 						</button>
 					</div>
 				</div>
-				{trailers ? (
+				{trailers && (
 					<div
 						className={`${
 							show === "trailers" ? "block " : "hidden "
@@ -105,8 +106,6 @@ function MediaPoster({
 							);
 						})}
 					</div>
-				) : (
-					<p className="p-4 capitalize"> no trailer avialble</p>
 				)}
 
 				<div
@@ -124,11 +123,9 @@ function MediaPoster({
 				<div
 					className={`${
 						show === "poster" ? "block " : "hidden "
-					} rounded-t-lg border-1 overflow-x-scroll my-4 flex`}>
+					} rounded-t-lg border-1  overflow-x-scroll scroll-smooth my-4 flex`}>
 					{posters ? (
-						posters.map(poster => (
-							<MediaPosterCard data={poster} key={poster.file_path} />
-						))
+						<Gallery images={posters} />
 					) : (
 						<p className="p-4 capitalize">no poster avialble</p>
 					)}

@@ -66,8 +66,8 @@ import { SinglePersonLoader } from "@/loaderAction/SinglePersonLoader";
 import { UserInfoLoader } from "@/loaderAction/UserInfoLoader";
 import { TrailerListLoader } from "@/loaderAction/TrailerListLoader";
 
-import LazyLoadImgList from "@/pages/LazyLoadImgList";
-import { loader as imgListLoader } from "@/pages/LazyLoadImgList";
+/* import LazyLoadImgList from "@/pages/LazyLoadImgList";
+import { loader as imgListLoader } from "@/pages/LazyLoadImgList"; */
 const router = createBrowserRouter([
 	//const router = createHashRouter([
 	{
@@ -217,11 +217,11 @@ const router = createBrowserRouter([
 	},
 
 	/* for testing lazyloading imglist */
-	{
+	/* 	{
 		path: "lazyloadingImg",
 		element: <LazyLoadImgList />,
 		loader: imgListLoader,
-	},
+	}, */
 ]);
 
 export default function App() {

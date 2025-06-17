@@ -200,7 +200,7 @@ function Login() {
 								type="submit"
 								onClick={handleDemoUser}
 								size="small">
-								Demp User
+								Demo User
 							</Button>
 						</div>
 						<div className="flex justify-center">
